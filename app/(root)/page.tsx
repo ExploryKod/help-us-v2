@@ -81,13 +81,10 @@ export default async function Home() {
                 </>
               ) : (
                 <div>
-                  <Link 
-                    href="/api/auth/login"
-                    className="inline-block px-6 py-3 bg-blue-500 text-white 
+                  <Link className={`inline-block px-6 py-3 bg-blue-500 text-white 
                             rounded-lg hover:bg-blue-600 transition-colors 
-                            text-lg font-medium shadow-sm hover:shadow-md"
-                  >
-                  Se Connecter
+                            text-lg font-medium shadow-sm hover:shadow-md`} href="/signin">
+                     Se Connecter
                   </Link>
                 </div>
               )}
