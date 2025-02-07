@@ -31,7 +31,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Navbar />
-            <main className="min-h-screen flex flex-col justify-center items-center">
+            <main className="min-h-screen pt-[64px] flex flex-col justify-center items-center">
               {children}
             </main>
             <Footer />

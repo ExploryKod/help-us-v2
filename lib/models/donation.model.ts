@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const donationSchema = new mongoose.Schema({
-  montant: {
+  amount: {
     type: Number,
     required: true
   },

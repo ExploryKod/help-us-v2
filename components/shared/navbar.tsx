@@ -10,17 +10,17 @@ const Navbar = () => {
     <header className="w-full fixed z-10 top-0 bg-gray-100 dark:bg-gray-900 border-b border-gray-200">
       <nav className="h-16 px-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Link href="/">
-            HelpUs
+          <Link href="/" className="font-bold text-lg me-5">
+            | HelpUs |
           </Link>
           <Link href="/" className="text-lg font-semibold">
-            <Home className="inline-block w-5 h-5 mr-1" /> Home
+            <Home className="inline-block w-5 h-5 mr-1" /> Accueil
           </Link>
           <Link href="/about" className="text-lg font-semibold">
-            <Info className="inline-block w-5 h-5 mr-1" /> About
+            <Info className="inline-block w-5 h-5 mr-1" /> A propos
           </Link>
           <Link href="/contact" className="text-lg font-semibold">
-            <Contact className="inline-block w-5 h-5 mr-1" /> Contact
+            <Contact className="inline-block w-5 h-5 mr-1" /> Nous Contacter
           </Link>
         </div>
         <div className="flex items-center space-x-4">
