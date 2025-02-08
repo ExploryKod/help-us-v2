@@ -13,9 +13,46 @@ export default withAuth(
     const { token } = req.nextauth
     const { pathname, origin } = req.nextUrl
 
-    if (pathname.startsWith("/dashboard") && token?.role !== "admin") {
-      return NextResponse.redirect(`${origin}/unauthorized`)
-    }
+      // Define protected routes and their required roles
+      const protectedRoutes = [
+          {
+              path: '/dashboard',
+              requiredRole: 'admin'
+          },
+          {
+              path: '/donations',
+              requiredRole: 'admin'
+          },
+          {
+              path: '/donors',
+              requiredRole: 'admin'
+          },
+          {
+              path: '/beneficiaries',
+              requiredRole: 'admin'
+          }
+      ];
+
+      // Find matching protected route
+      const protectedRoute = protectedRoutes.find(route =>
+          pathname.startsWith(route.path)
+      );
+
+      // Check if route requires authentication
+      if (!protectedRoute) {
+          return NextResponse.next();
+      }
+
+      // Handle unauthorized access
+      if (!token || token.role !== protectedRoute.requiredRole) {
+          return NextResponse.redirect(`${origin}/unauthorized`);
+      }
+
+      return NextResponse.next()
+
+    // if (pathname.startsWith("/dashboard") && token?.role !== "admin") {
+    //   return NextResponse.redirect(`${origin}/unauthorized`)
+    // }
   },
   {
     callbacks: {
@@ -25,4 +62,4 @@ export default withAuth(
   }
 )
 
-export const config = { matcher: ["/profile", "/dashboard/:path*"] }
+export const config = { matcher: ["/profile", "/dashboard/:path*", "/donations/:path*", "/donors/:path*", "/beneficiaries/:path*"] };
