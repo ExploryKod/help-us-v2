@@ -2,11 +2,6 @@
 import mongoose from 'mongoose';
 
 const donorSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    unique: true
-  },
   name: {
     type: String,
     required: true
@@ -31,6 +26,6 @@ const donorSchema = new mongoose.Schema({
   }
 });
 
-const Donor = mongoose.models.Donation || mongoose.model("Donor", donorSchema)
+const Donor = mongoose.models.Donor || mongoose.model("Donor", donorSchema)
 
 export { Donor }

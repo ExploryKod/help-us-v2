@@ -14,7 +14,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="min-h-screen-1/2 rounded bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen-1/2 rounded">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto text-center">
 

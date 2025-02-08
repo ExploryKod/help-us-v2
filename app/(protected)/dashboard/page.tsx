@@ -1,53 +1,70 @@
-import { getDonations } from "@/lib/actions/donations.actions";
+"use client";
 
-const Dashboard = async () => {
-  const donations = await getDonations();
-  
+import { useEffect, useState } from "react";
+import { getDonations } from "@/lib/actions/donations.actions";
+import { Card, Col, Empty, Row, Typography, Spin } from "antd";
+import { IDonation } from "@/types/IDonnation";
+
+const { Title, Text } = Typography;
+
+const Page = () => {
+
+  const [donations, setDonations] = useState<IDonation[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedDonations = await getDonations();
+        setDonations(fetchedDonations);
+      } catch (error) {
+        console.error("Erreur lors du chargement des donations :", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-sm">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Liste des Donations</h2>
-      
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {donations.map((donation) => (
-          <div
-            key={donation._id.toString()}
-            className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
-          >
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">ID:</span>
-                <span className="text-sm text-gray-900">{donation._id.toString()}</span>
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">Montant:</span>
-                <span className="text-sm text-gray-900">{donation.amount}€</span>
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">Type:</span>
-                <span className="text-sm text-gray-900">{donation.type}</span>
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">Date:</span>
-                <span className="text-sm text-gray-900">{new Date(donation.date).toLocaleDateString('fr-FR')}</span>
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">Note:</span>
-                <span className="text-sm text-gray-900">{donation.grade || 'N/A'}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Title level={2} className="mb-6 text-gray-800">Liste des Donations</Title>
 
-      {donations.length === 0 && (
-        <p className="mt-6 text-center text-gray-500 italic">Aucune donation trouvée.</p>
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <Spin size="large" />
+        </div>
+      ) : donations.length > 0 ? (
+        <Row gutter={[16, 16]}>
+          {donations.map((donation) => (
+            <Col key={donation._id.toString()} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                title={`Donation #${donation._id.toString().slice(-5)}`} // Affiche les 5 derniers caractères de l'ID
+                bordered={false}
+                hoverable
+              >
+                <div className="flex flex-col gap-2">
+                  <Text strong>Montant:</Text>
+                  <Text>{donation.amount}€</Text>
+
+                  <Text strong>Type:</Text>
+                  <Text>{donation.type}</Text>
+
+                  <Text strong>Date:</Text>
+                  <Text>{new Date(donation.date).toLocaleDateString('fr-FR')}</Text>
+
+                  <Text strong>Note:</Text>
+                  <Text>{donation.grade || "N/A"}</Text>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <Empty description="Aucune donation trouvée" className="mt-6" />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Page;

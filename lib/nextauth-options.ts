@@ -53,6 +53,8 @@ export const nextauthOptions: NextAuthOptions = {
         if (token.email) {
           const user = await getUserByEmail({email: token.email})
           // console.log({user})
+          token.firstName = user.firstName
+          token.lastName = user.lastName
           token.name = user.name
           token._id = user._id
           token.role = user.role
@@ -68,6 +70,8 @@ export const nextauthOptions: NextAuthOptions = {
         user: {
           ...session.user,
           name: token.name,
+          firstName: token.firstName,
+          lastName: token.lastName,
           _id: token._id,
           role: token.role,
           provider: token.provider
