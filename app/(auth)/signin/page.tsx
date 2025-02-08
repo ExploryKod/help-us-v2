@@ -1,19 +1,17 @@
-import SignInForm from '@/components/form/signin-form'
+import SignInForm from '@/components/form/signin-form';
 
 interface SignInPageProps {
   searchParams: {
-    callbackUrl: string
-  }
+    callbackUrl?: string;
+  };
 }
-const SignInPage = ({
-  searchParams: { callbackUrl }
-}: SignInPageProps) => {
-  // console.log(callbackUrl)
+
+const SignInPage = ({ searchParams: { callbackUrl } }: SignInPageProps) => {
   return (
     <div className="w-full">
       <SignInForm callbackUrl={callbackUrl || "/"} />
     </div>
-  )
-}
+  );
+};
 
-export default SignInPage
+export default SignInPage;
