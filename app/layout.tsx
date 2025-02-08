@@ -11,8 +11,8 @@ import LayoutWrapper from "./layoutWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Nextjs fullstack Authentication",
-  description: "Sign-Up and Sign-In with Nextjs",
+  title: "Help Us",
+  description: "Gestionnaire de dons en ligne",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -10,7 +10,7 @@ const page = () => {
                 <Button type='primary'>Ajouter un bénéficiaire</Button>
             </PageCanvas.Actions>  
             <PageCanvas.Content>
-                <TableComponent/>
+                <TableComponent columns={[]} data={[]}/>
             </PageCanvas.Content>
     </PageCanvas>
 )

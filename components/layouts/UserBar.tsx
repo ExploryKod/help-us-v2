@@ -1,5 +1,5 @@
 "use client";
-import { getUserSession } from "@/lib/actions/auth.actions";
+
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, MenuProps, Space, Typography } from "antd";
 import { signOut, useSession } from "next-auth/react";
@@ -12,7 +12,7 @@ const UserBar: React.FC = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(session);
+  console.log("session", session);
   
   const signout = () => {
     signOut({
@@ -83,12 +83,17 @@ const UserBar: React.FC = () => {
   return (
     <div className="flex space-x-2">
       <Dropdown menu={{ items }} placement="bottomRight" trigger={['hover']}>
-        <Avatar 
-          style={{ backgroundColor: avatarColor }}
-          size="large"
-        >
-          EA
-        </Avatar>
+        {session?.user && (
+            <Avatar
+                style={{ backgroundColor: avatarColor }}
+                size="large"
+            >
+
+              {session.user.firstName && session.user.lastName ?
+                  session.user.firstName[0] + session.user.lastName[0] :
+                  session.user.name[0] + session.user.name[1]}
+            </Avatar>
+        )}
       </Dropdown>
     </div>
   );
