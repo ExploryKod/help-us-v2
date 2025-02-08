@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import { DonationType, DonorStatus, IDonor } from '@/types/IDonor';
-import { IUser } from '@/types/IUser';
+import { IUser, UserRolesEnum } from '@/types/IUser';
 import User from '@/lib/models/user.model';
 import { Donor } from '@/lib/models/donors.model';
 import { IDonation } from '@/types/IDonnation';
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         email: "john.doe@example.com",
         password: "password123",
         image: "https://gravatar.com/avatar/27205e5c51cb03f862138b22bcb5dc20f94a342e744ff6df1b8dc8af3c865109",
-        role: "admin",
+        role: UserRolesEnum.ADMIN,
         provider: "credentials",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
         name: "Jane Smith",
         email: "jane.smith@example.com",
         password: "password123",
-        role: "admin",
+        role: UserRolesEnum.USER,
         provider: "credentials",
         image: "https://gravatar.com/avatar/27205e5c51cb03f862138b22bcb5dc20f94a342e744ff6df1b8dc8af3c865109",
         createdAt: new Date(),
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         name: "Alice Johnson",
         email: "alice.johnson@example.com",
         password: "password123",
-        role: "user",
+        role: UserRolesEnum.BENEFICIARY,
         provider: "credentials",
         image: "https://gravatar.com/avatar/27205e5c51cb03f862138b22bcb5dc20f94a342e744ff6df1b8dc8af3c865109",
         createdAt: new Date(),

@@ -1,15 +1,16 @@
 import { MenuOutlined } from "@ant-design/icons";
 import React from "react";
-import UserBar from "../layouts/UserBar";
 
-interface HeaderProps {
+interface SidebarProps {
   setSidebarOpen: (open: boolean) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ setSidebarOpen }) => {
   // const user = useAppSelector(selectUser);
 
   return (
+
+
     <header className="flex items-center justify-between p-4 bg-white shadow">
       {/* Bouton hamburger visible uniquement en mobile */}
       <button onClick={() => setSidebarOpen(true)} className="p-2 md:hidden">
@@ -21,10 +22,10 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
         Bienvenue {user?.firstName} {user?.lastName} !
       </h1> */}
       <div className="flex items-center justify-end w-full max-w-screen-xl px-4 mx-auto">
-        <UserBar />
+        {/* <UserBar /> */}
       </div>
     </header>
   );
 };
 
-export default Header;
+export default Sidebar;

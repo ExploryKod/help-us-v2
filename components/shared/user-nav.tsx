@@ -15,8 +15,6 @@ import SignOutButton from "@/components/button/signout-button"
 
 const UserNav = async () => {
   const { session } = await getUserSession()
-  // console.log(session)
-
   return (
     <div>
       {session ? (

@@ -8,9 +8,8 @@
     "start": "next start",
     "lint": "next lint --fix",
     "seed": "curl -X POST http://localhost:3000/api/seeds",
-    "create:seed": "concurrently \"pnpm run dev\" \"sleep 5 && pnpm run seed\"",
     "clear": "curl -X POST http://localhost:3000/api/seeds/clear",
-    "clear:bdd": "concurrently \"pnpm run dev\" \"sleep 5 && pnpm run clear\""
+    "clear:bdd": "concurrently \"pnpm run dev\" \"sleep 5 && npm run clear\""
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
