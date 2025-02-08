@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-export interface IDonation {
+
+export interface IDonation extends Partial<Document> {
     _id: mongoose.Types.ObjectId;
     amount: number;
     type: string;
