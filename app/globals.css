@@ -80,3 +80,11 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.p-frame {
+  @apply p-8;
+}
+
+h1 {
+  font-size: 32px;
+}

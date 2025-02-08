@@ -6,7 +6,6 @@ const Dashboard = async () => {
   return (
     <div className="p-6 bg-white rounded-lg shadow-sm">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">Liste des Donations</h2>
-      
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {donations.map((donation) => (
           <div

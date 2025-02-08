@@ -7,6 +7,7 @@ import ThemeProvider from '@/providers/theme-provider'
 import Navbar from '@/components/shared/navbar'
 import Footer from '@/components/shared/footer'
 import { Toaster } from '@/components/ui/toaster'
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body className={inter.className}>
         <AuthProvider>
+        <AntdRegistry>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -31,12 +33,13 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Navbar />
-            <main className="min-h-screen pt-[64px] flex flex-col justify-center items-center">
+            <main className="min-h-screen pt-[64px] ">
               {children}
             </main>
             <Footer />
             <Toaster />
           </ThemeProvider>
+          </AntdRegistry>
         </AuthProvider>
       </body>
     </html>

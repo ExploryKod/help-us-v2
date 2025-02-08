@@ -8,11 +8,12 @@
     "start": "next start",
     "lint": "next lint --fix",
     "seed": "curl -X POST http://localhost:3000/api/seeds",
-    "create:seed": "concurrently \"pnpm run dev\" \"sleep 5 && npm run seed\"",
     "clear": "curl -X POST http://localhost:3000/api/seeds/clear",
     "clear:bdd": "concurrently \"pnpm run dev\" \"sleep 5 && npm run clear\""
   },
   "dependencies": {
+    "@ant-design/icons": "^5.6.1",
+    "@ant-design/nextjs-registry": "^1.0.2",
     "@hookform/resolvers": "^3.3.1",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
@@ -25,6 +26,7 @@
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "antd": "^5.23.4",
     "autoprefixer": "10.4.15",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
