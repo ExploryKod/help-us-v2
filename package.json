@@ -8,9 +8,9 @@
     "start": "next start",
     "lint": "next lint --fix",
     "seed": "curl -X POST http://localhost:3000/api/seeds",
-    "create:seed": "concurrently \"pnpm run dev\" \"sleep 5 && npm run seed\"",
+    "create:seed": "concurrently \"pnpm run dev\" \"sleep 5 && pnpm run seed\"",
     "clear": "curl -X POST http://localhost:3000/api/seeds/clear",
-    "clear:bdd": "concurrently \"pnpm run dev\" \"sleep 5 && npm run clear\""
+    "clear:bdd": "concurrently \"pnpm run dev\" \"sleep 5 && pnpm run clear\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
