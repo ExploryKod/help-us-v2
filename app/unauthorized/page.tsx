@@ -2,12 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import { AuthorizeButton } from '@/components/button/authorize-button'
 
 const Unauthorized = () => {
   const router = useRouter()
-
+   
   return (
-    <section>
+    <section className="flex flex-col gap-3">
       <h1 className="text-red-500 font-semibold">You Are Not Authorized!</h1>
       <Button
         onClick={() => router.push("/")}
@@ -15,6 +16,7 @@ const Unauthorized = () => {
       >
         Go Home
       </Button>
+      <AuthorizeButton />
     </section>
   )
 }
