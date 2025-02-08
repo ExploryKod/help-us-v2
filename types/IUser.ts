@@ -11,6 +11,8 @@ export enum UserRolesEnum {
 export interface IUser extends Partial<Document> {
   _id: mongoose.Types.ObjectId;
   name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password?: string;
   image?: string;

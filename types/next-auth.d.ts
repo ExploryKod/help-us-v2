@@ -4,15 +4,13 @@ import { UserRolesEnum } from "./IUser";
 declare module "next-auth" {
   interface User {
     _id: string
-    role: string
-    provider: string
     firstName: string
     lastName: string
     name: string;
     email: string;
     password?: string;
     image?: string;
-    role?: UserRolesEnum;
+    role?: UserRolesEnum | string;
     provider?: string;
     createdAt?: Date;
     updatedAt?: Date;

@@ -20,6 +20,8 @@ export async function POST(req: Request) {
       {
         _id: new mongoose.Types.ObjectId(),
         name: "John Doe",
+        firstName: "John",
+        lastName: "Doe",
         email: "john.doe@example.com",
         password: "password123",
         image: "https://gravatar.com/avatar/27205e5c51cb03f862138b22bcb5dc20f94a342e744ff6df1b8dc8af3c865109",
@@ -31,6 +33,8 @@ export async function POST(req: Request) {
       {
         _id: new mongoose.Types.ObjectId(),
         name: "Jane Smith",
+        firstName: "Jane Smith",
+        lastName: "Doe",
         email: "jane.smith@example.com",
         password: "password123",
         role: UserRolesEnum.USER,
@@ -42,6 +46,8 @@ export async function POST(req: Request) {
       {
         _id: new mongoose.Types.ObjectId(),
         name: "Alice Johnson",
+        firstName: "Alice",
+        lastName: "Alice",
         email: "alice.johnson@example.com",
         password: "password123",
         role: UserRolesEnum.BENEFICIARY,
