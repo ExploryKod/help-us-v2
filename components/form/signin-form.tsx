@@ -1,112 +1,80 @@
-"use client"
+"use client";
 
-import { useForm } from "react-hook-form"
-import { experimental_useFormStatus as useFormStatus } from 'react-dom'
-// 在最新版本的 react-dom 中，使用 useFormStatus 來管理表單狀態。
-// import { useFormStatus } from 'react-dom'
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { signIn } from "next-auth/react"
-import { userSignInValidation } from "@/lib/validations/auth"
-import Link from "next/link"
-
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import GoogleSignInButton from "@/components/button/google-signin-button"
+import { useState } from "react";
+import { Form, Input, Button, message } from "antd";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import GoogleSignInButton from "@/components/button/google-signin-button";
 
 interface SignInFormProps {
-  callbackUrl: string
+  callbackUrl: string;
 }
 
-const SignInForm = ({
-  callbackUrl
-}: SignInFormProps) => {
-  const { pending } = useFormStatus()
+const SignInForm = ({ callbackUrl }: SignInFormProps) => {
+  const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof userSignInValidation>>({
-    resolver: zodResolver(userSignInValidation),
-    defaultValues: {
-      email: "",
-      password: ""
+  const onFinish = async (values: { email: string; password: string }) => {
+    setLoading(true);
+    try {
+      const result = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        callbackUrl,
+        redirect: false, // Ne pas rediriger automatiquement
+      });
+
+      if (result?.error) {
+        message.error("Invalid email or password.");
+      } else {
+        message.success("Sign in successful!");
+        window.location.href = callbackUrl; // Redirection manuelle
+      }
+    } catch (error) {
+      message.error("An error occurred. Please try again.");
     }
-  })
-
-  async function onSubmit(values: z.infer<typeof userSignInValidation>) {
-    // console.log(values)
-    await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      callbackUrl
-    })
-  }
+    setLoading(false);
+  };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <div className="space-y-2">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="mail@example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="your password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button
-          className="w-full mt-6"
-          type="submit"
-          disabled={pending}
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold text-center mb-4">Sign In</h2>
+      
+      <Form layout="vertical" onFinish={onFinish}>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, type: "email", message: "Please enter a valid email!" }]}
         >
-          {pending ? "Submitting..." : "Sign In"}
+          <Input placeholder="mail@example.com" />
+        </Form.Item>
+
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please enter your password!" }]}
+        >
+          <Input.Password placeholder="Your password" />
+        </Form.Item>
+
+        <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
+          Sign In
         </Button>
-      </form>
-      <div className="flex items-center justify-center my-4">
-        <div className="border-b border-gray-400 w-full"></div>
-        <span className="px-2 text-gray-400">or</span>
-        <div className="border-b border-gray-400 w-full"></div>
-      </div>
+      </Form>
+
+      <div className="text-center my-4 text-gray-600">or</div>
+
       <GoogleSignInButton callbackUrl={callbackUrl}>
         Sign in with Google
       </GoogleSignInButton>
-      <p className="text-center text-sm text-gray-600 mt-2">
+
+      <p className="text-center text-sm text-gray-600 mt-4">
         Don&apos;t have an account?&nbsp;
-        <Link className="text-blue-600 hover:underline" href="/signup">
+        <Link href="/signup" className="text-blue-600 hover:underline">
           Sign Up
         </Link>
       </p>
-    </Form>
-  )
-}
+    </div>
+  );
+};
 
-export default SignInForm
+export default SignInForm;
