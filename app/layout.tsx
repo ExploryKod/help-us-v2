@@ -11,7 +11,7 @@ import LayoutWrapper from "./layoutWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Nextjs fullstack Authentication",
+  title: "HelpUs",
   description: "Sign-Up and Sign-In with Nextjs",
 };
 

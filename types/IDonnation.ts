@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IDonation extends Partial<Document> {
-    _id: mongoose.Types.ObjectId;
+    _id: string; 
     amount: number;
     type: string;
     date: Date;
@@ -9,4 +9,5 @@ export interface IDonation extends Partial<Document> {
     createdAt: Date;
     updatedAt: Date;
 }
+  
   
