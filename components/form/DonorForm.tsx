@@ -15,13 +15,17 @@ interface DonorFormProps {
     name: string;
     email: string;
     phone: string;
-    donationType: DonationType;
+    donationType: DonationType | string;
     status: DonorStatus;
   };
 }
 
 const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialValues }, ref) => {
   const [form] = Form.useForm();
+
+  if(!donorId) {
+    console.warn("no donor id", donorId)
+  }
 
   // ✅ Remplir le formulaire en mode mise à jour
   useEffect(() => {
