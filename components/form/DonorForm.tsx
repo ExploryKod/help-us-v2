@@ -51,23 +51,29 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
     form.resetFields();
   };
 
-  const handleSubmit = async (values: any) => {
+  const handleCreate = async (values: any) => {
     console.log(values)
+
+    if(donorId) {
+      console.warn("donor has an id so cannot be recreated: ", donorId);
+      return
+    }
+
     try {
-      const response = await fetch(`/api/donors${donorId ? `/${donorId}` : ""}`, {
-        method: donorId ? "PUT" : "POST", // 🔥 PUT si mise à jour, POST sinon
+      const response = await fetch(`/api/donors`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur lors de la ${donorId ? "mise à jour" : "création"}`);
+        throw new Error(`Erreur lors de la création du donateur"}`);
       }
 
-      message.success(`Donateur ${donorId ? "mis à jour" : "ajouté"} avec succès`);
+      message.success(`Donateur ajouté avec succès`);
       form.resetFields();
     } catch (error) {
-      message.error(`Échec de la ${donorId ? "mise à jour" : "création"}`);
+      message.error(`Échec de la mise à jour`);
       console.error(error);
     }
   };
@@ -89,14 +95,19 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
         .then((response) => response.json())
         .then((data) => {
         console.log('Success:', data);
+        message.success('Donateur mis à jour avec succès')
+        closeModal();
+        form.resetFields();
         })
         .catch((error) => {
-    console.error('Error:', error);
+        console.error('Error:', error);
+        message.error('Il y a eu une erreur lors de la modification')
+        form.resetFields();
     });
     };
 
   return (
-    <Form form={form} onFinish={donorId ? handleModify : handleSubmit} layout="vertical">
+    <Form form={form} onFinish={donorId ? handleModify : handleCreate} layout="vertical">
       <Form.Item label="Nom" name="name" rules={[{ required: true, message: "Nom requis" }]}>
         <Input placeholder="Entrez le nom" />
       </Form.Item>
@@ -122,8 +133,8 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
           <Select.Option value="inactive">Inactif</Select.Option>
         </Select>
       </Form.Item>
-
-      <Flex gap={"middle"}  justify="flex-end">
+      {donorId ?
+      (<Flex gap={"middle"}  justify="flex-end">
            <Form.Item>
             <Button type="default"   onClick={handleCancel} >
                 Annuler
@@ -132,7 +143,7 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
           <Button type="primary" htmlType="submit">
               Modifier
           </Button>
-      </Flex>
+      </Flex>) : null}
     </Form>
   );
 });
