@@ -15,6 +15,7 @@ interface ModalState {
   width?: number;
   openModal: (options: Omit<ModalState, "isOpen" | "openModal" | "closeModal">) => void;
   closeModal: () => void;
+  footer?: ReactNode | ReactNode[] | null
 }
 
 // Création du store global avec Zustand
@@ -28,5 +29,5 @@ export const useModal = create<ModalState>((set) => ({
   onCancel: () => set({ isOpen: false }),
   width: 600,
   openModal: (options) => set({ ...options, isOpen: true }),
-  closeModal: () => set({ isOpen: false }),
+  closeModal: () => set({ isOpen: false })
 }));

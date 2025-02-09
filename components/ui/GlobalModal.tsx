@@ -4,7 +4,7 @@ import { useModal } from "@/app/store/modalStore";
 import { Modal } from "antd";
 
 const GlobalModal = () => {
-  const { isOpen, title, component, okText, cancelText, onOk, onCancel, width, closeModal } =
+  const { isOpen, title, component, okText, cancelText, onOk, onCancel, width, closeModal, footer } =
     useModal();
 
   return (
@@ -16,6 +16,7 @@ const GlobalModal = () => {
       okText={okText}
       cancelText={cancelText}
       width={width}
+      footer={footer}
     >
       {component}
     </Modal>

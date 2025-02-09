@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { TableColumnsType, Input, message, Button } from "antd";
+import { useEffect, useState, useRef } from "react";
+import { TableColumnsType, Input, message, Button, Form } from "antd";
 import { IDonor } from "@/types/IDonor";
 import TableComponent from "./table";
 import { getDonors } from "@/lib/actions/donors.actions";
 import { useModal } from "@/app/store/modalStore";
-import DonorForm from "../form/DonorForm";
+import DonorForm, {DonorFormRef} from "../form/DonorForm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
@@ -19,21 +19,26 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [data, setData] = useState<IDonor[]>([]);
   const [filteredData, setFilteredData] = useState<IDonor[]>([]);
   const [searchText, setSearchText] = useState("");
-  const {openModal} = useModal();
+  const {openModal, closeModal } = useModal();
   const [refreshTable, setRefreshTable] = useState(false);
+
+  const formRef = useRef<DonorFormRef | null>(null);
   
 
-  const editDonorModal = (id: string) => {
-    openModal({
-      title: "Modifier un Donateur",
-      component: <DonorForm />,
-      okText: "Modifier",
-      cancelText: "Annuler",
-      onOk: async () => {
-        setRefreshTable((prev) => !prev);
-      },
-    });
-  };
+    const editDonorModal = (id: string) => {
+      openModal({
+        title: "Modifier ce donateur",
+        component: <DonorForm />,
+        okText: "Modifier",
+        cancelText: "Annuler",
+        onOk: async () => {
+          setRefreshTable((prev) => !prev);
+        },
+        footer: null
+      });
+    };
+
+  
 
   const deleteDonor = async (_id: string) => {
     try {

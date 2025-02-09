@@ -1,7 +1,8 @@
 "use client";
-import { Form, Input, message, Select } from "antd";
+import { Button, Flex, Form, Input, message, Select } from "antd";
 import React, { forwardRef, useImperativeHandle, useEffect } from "react";
 import { DonationType, DonorStatus } from "@/types/IDonor";
+import { useModal } from "@/app/store/modalStore";
 
 // ✅ Définition du type pour la ref du formulaire
 export interface DonorFormRef {
@@ -20,12 +21,18 @@ interface DonorFormProps {
   };
 }
 
+
 const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialValues }, ref) => {
   const [form] = Form.useForm();
+  const { openModal, closeModal } = useModal();
 
   if(!donorId) {
     console.warn("no donor id", donorId)
+    //donorId = '67a8d529f139633cc60bcec2'
+    console.log(donorId)
   }
+
+   
 
   // ✅ Remplir le formulaire en mode mise à jour
   useEffect(() => {
@@ -39,7 +46,13 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
     validateFields: () => form.validateFields(),
   }));
 
+  const handleCancel = () => {
+    closeModal();
+    form.resetFields();
+  };
+
   const handleSubmit = async (values: any) => {
+    console.log(values)
     try {
       const response = await fetch(`/api/donors${donorId ? `/${donorId}` : ""}`, {
         method: donorId ? "PUT" : "POST", // 🔥 PUT si mise à jour, POST sinon
@@ -59,8 +72,31 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
     }
   };
 
+   const handleModify = (values: any) => {
+        console.log("on finish", donorId);
+
+        if(!donorId) {
+          message.error('Il manque un id à cet utilisateur en base')
+        }
+
+        fetch(`/api/donors/${donorId}`, {
+        method: 'PUT', 
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+    console.error('Error:', error);
+    });
+    };
+
   return (
-    <Form form={form} onFinish={handleSubmit} layout="vertical">
+    <Form form={form} onFinish={donorId ? handleModify : handleSubmit} layout="vertical">
       <Form.Item label="Nom" name="name" rules={[{ required: true, message: "Nom requis" }]}>
         <Input placeholder="Entrez le nom" />
       </Form.Item>
@@ -86,6 +122,17 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
           <Select.Option value="inactive">Inactif</Select.Option>
         </Select>
       </Form.Item>
+
+      <Flex gap={"middle"}  justify="flex-end">
+           <Form.Item>
+            <Button type="default"   onClick={handleCancel} >
+                Annuler
+            </Button>
+          </Form.Item>   
+          <Button type="primary" htmlType="submit">
+              Modifier
+          </Button>
+      </Flex>
     </Form>
   );
 });
