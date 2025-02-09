@@ -1,6 +1,14 @@
 import mongoose from "mongoose"
 
 const donationSchema = new mongoose.Schema({
+  donorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Donor'
+  },
+  beneficiaryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Beneficiary'
+  },
   amount: {
     type: Number,
     required: true
