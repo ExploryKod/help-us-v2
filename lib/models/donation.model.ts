@@ -18,11 +18,11 @@ const donationSchema = new mongoose.Schema({
     required: true
   },
   date: {
-    type: Date,
+    type: String,
     required: true
   },
-  grade: {
-    type: String
+  notes: {
+    type: String,
   }
 }, { timestamps: true })
 
