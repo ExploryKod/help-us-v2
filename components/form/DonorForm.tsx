@@ -133,17 +133,19 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
           <Select.Option value="inactive">Inactif</Select.Option>
         </Select>
       </Form.Item>
-      {donorId ?
-      (<Flex gap={"middle"}  justify="flex-end">
+      
+      <Flex gap={"middle"}  justify="flex-end">
            <Form.Item>
             <Button type="default"   onClick={handleCancel} >
                 Annuler
             </Button>
           </Form.Item>   
-          <Button type="primary" htmlType="submit">
-              Modifier
-          </Button>
-      </Flex>) : null}
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              {donorId? "Modifier" : "Créer"}
+            </Button>
+          </Form.Item>
+      </Flex>
     </Form>
   );
 });

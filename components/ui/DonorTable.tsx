@@ -34,28 +34,7 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
         onOk: async () => {
           setRefreshTable((prev) => !prev);
         },
-        footer: [
-          <Button key="back" onClick={closeModal}>
-            Annuler
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={async () => {
-              if (formRef.current) {
-                try {
-                  await formRef.current.validateFields();
-                  await formRef.current.submit();
-                  setRefreshTable((prev) =>!prev);
-                } catch (errorInfo) {
-                  console.error("Erreur lors de la validation du formulaire:", errorInfo);
-                }
-              }
-            }}
-          >
-            Modifier
-          </Button>,
-        ]
+        footer: null
       });
     };
 
