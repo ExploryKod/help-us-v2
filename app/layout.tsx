@@ -6,8 +6,11 @@ import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/providers/auth-provider";
 import ThemeProvider from "@/providers/theme-provider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import LayoutWrapper from "./layoutWrapper";
+import { ConfigProvider } from 'antd';
+import theme from '../theme/themeConfig';
 import GlobalModal from "@/components/ui/GlobalModal";
+import LayoutWrapper from "./LayoutWrapper";
+import PageCanvas from "./PageCanvas";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,16 +25,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <AuthProvider>
           <AntdRegistry>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <LayoutWrapper>{children}</LayoutWrapper>
-              <GlobalModal /> {/* La modal est maintenant accessible partout */}
-              <Toaster />
-            </ThemeProvider>
+            <ConfigProvider theme={theme} >
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <LayoutWrapper><PageCanvas>{children}</PageCanvas></LayoutWrapper>
+                <GlobalModal /> {/* La modal est maintenant accessible partout */}
+                <Toaster />
+              </ThemeProvider>
+            </ConfigProvider>
           </AntdRegistry>
         </AuthProvider>
       </body>

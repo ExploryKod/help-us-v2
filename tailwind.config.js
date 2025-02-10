@@ -20,7 +20,8 @@ module.exports = {
         hu: {
           primary: "#ADBBDA",
           secondary: "#7091E6",
-          tertiary: "#3D52A0"
+          tertiary: "#3D52A0",
+          black: "#27293B"
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
