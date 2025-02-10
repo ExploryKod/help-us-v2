@@ -22,7 +22,7 @@ const BeneficiaryTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const editBeneficiaryModal = (id: string) => {
     openModal({
       title: "Modifier un bénéficiaire",
-      component: <BeneficiaryForm />,
+      component: <BeneficiaryForm  />,
       okText: "Modifier",
       cancelText: "Annuler",
       onOk: async () => {

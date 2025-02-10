@@ -99,13 +99,13 @@ h1 {
 }
 
 #sidebar a:hover {
-  @apply bg-hu-primary text-white rounded-md;
+  @apply bg-hu-tertiary text-white rounded-md;
   transition: all 0.3s ease;
 }
 
 /* Active link styles */
 #sidebar .active {
-  @apply bg-hu-primary text-white rounded-md;
+  @apply bg-hu-tertiary text-white rounded-md;
 }
 
 /* SVG styles for active and hover states */

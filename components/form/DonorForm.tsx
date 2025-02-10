@@ -1,113 +1,62 @@
 "use client";
-import { Button, Flex, Form, Input, message, Select } from "antd";
-import React, { forwardRef, useImperativeHandle, useEffect } from "react";
-import { DonationType, DonorStatus } from "@/types/IDonor";
+import { Form, Input, message, Select } from "antd";
+import React, { forwardRef, useImperativeHandle, useEffect, useState } from "react";
+import { IDonor } from "@/types/IDonor";
 import { useModal } from "@/app/store/modalStore";
 
-// ✅ Définition du type pour la ref du formulaire
 export interface DonorFormRef {
   submit: () => void;
   validateFields: () => Promise<void>;
 }
 
 interface DonorFormProps {
-  donorId?: string; // ID du bénéficiaire pour la mise à jour
-  initialValues?: {
-    name: string;
-    email: string;
-    phone: string;
-    donationType: DonationType | string;
-    status: DonorStatus;
-  };
+  donor?: IDonor;
+  onSuccess?: () => void; // ✅ Ajout pour rafraîchir la liste après soumission
 }
 
-
-const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialValues }, ref) => {
+const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donor, onSuccess }, ref) => {
   const [form] = Form.useForm();
-  const { openModal, closeModal } = useModal();
+  const { closeModal } = useModal();
+  const [loading, setLoading] = useState(false);
 
-  if(!donorId) {
-    console.warn("no donor id", donorId)
-    //donorId = '67a8d529f139633cc60bcec2'
-    console.log(donorId)
-  }
-
-   
-
-  // ✅ Remplir le formulaire en mode mise à jour
   useEffect(() => {
-    if (initialValues) {
-      form.setFieldsValue(initialValues);
+    if (donor) {
+      form.setFieldsValue(donor);
+    } else  {
+      form.resetFields();
     }
-  }, [initialValues, form]);
+  }, [donor, form]);
 
   useImperativeHandle(ref, () => ({
     submit: () => form.submit(),
     validateFields: () => form.validateFields(),
   }));
 
-  const handleCancel = () => {
-    closeModal();
-    form.resetFields();
-  };
-
-  const handleCreate = async (values: any) => {
-    console.log(values)
-
-    if(donorId) {
-      console.warn("donor has an id so cannot be recreated: ", donorId);
-      return
-    }
-
+  const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
-      const response = await fetch(`/api/donors`, {
-        method: "POST",
+      const response = await fetch(`/api/donors${donor?._id ? `/${donor._id}` : ""}`, {
+        method: donor?._id ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur lors de la création du donateur"}`);
+        throw new Error(`Erreur lors de la ${donor?._id ? "mise à jour" : "création"}`);
       }
 
-      message.success(`Donateur ajouté avec succès`);
-      form.resetFields();
+      message.success(`Donateur ${donor?._id ? "mis à jour" : "ajouté"} avec succès`);
+      onSuccess?.(); // ✅ Rafraîchit la liste après soumission
     } catch (error) {
-      message.error(`Échec de la mise à jour`);
+      message.error(`Échec de la ${donor?._id ? "mise à jour" : "création"}`);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-   const handleModify = (values: any) => {
-        console.log("on finish", donorId);
-
-        if(!donorId) {
-          message.error('Il manque un id à cet utilisateur en base')
-        }
-
-        fetch(`/api/donors/${donorId}`, {
-        method: 'PUT', 
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-        console.log('Success:', data);
-        message.success('Donateur mis à jour avec succès')
-        closeModal();
-        form.resetFields();
-        })
-        .catch((error) => {
-        console.error('Error:', error);
-        message.error('Il y a eu une erreur lors de la modification')
-        form.resetFields();
-    });
-    };
-
   return (
-    <Form form={form} onFinish={donorId ? handleModify : handleCreate} layout="vertical">
+    <Form form={form} onFinish={handleSubmit} layout="vertical">
       <Form.Item label="Nom" name="name" rules={[{ required: true, message: "Nom requis" }]}>
         <Input placeholder="Entrez le nom" />
       </Form.Item>
@@ -116,41 +65,26 @@ const DonorForm = forwardRef<DonorFormRef, DonorFormProps>(({ donorId, initialVa
         <Input placeholder="Entrez l’email" />
       </Form.Item>
 
-      <Form.Item label="Téléphone" name="phone" rules={[{ required: false, message: "Numero de téléphone optionnel" }]}>
-        <Input placeholder="Renseignez un numéro de téléphone " />
+      <Form.Item label="Téléphone" name="phone">
+        <Input placeholder="Renseignez un numéro de téléphone" />
       </Form.Item>
 
       <Form.Item label="Type de donation" name="donationType" rules={[{ required: true, message: "Type de donation requis" }]}>
-        <Select placeholder="Statut" style={{ width: "100%" }}>
+        <Select placeholder="Type de donation">
           <Select.Option value="financial">Financier</Select.Option>
-          <Select.Option value="material">Matérielle</Select.Option>
+          <Select.Option value="material">Matériel</Select.Option>
         </Select>
       </Form.Item>
 
       <Form.Item label="Statut" name="status" rules={[{ required: true, message: "Statut requis" }]}>
-        <Select placeholder="Statut" style={{ width: "100%" }}>
+        <Select placeholder="Statut">
           <Select.Option value="active">Actif</Select.Option>
           <Select.Option value="inactive">Inactif</Select.Option>
         </Select>
       </Form.Item>
-      
-      <Flex gap={"middle"}  justify="flex-end">
-           <Form.Item>
-            <Button type="default"   onClick={handleCancel} >
-                Annuler
-            </Button>
-          </Form.Item>   
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              {donorId? "Modifier" : "Créer"}
-            </Button>
-          </Form.Item>
-      </Flex>
     </Form>
   );
 });
 
-// ✅ Ajout du displayName pour éviter l'erreur ESLint
 DonorForm.displayName = "DonorForm";
-
 export default DonorForm;

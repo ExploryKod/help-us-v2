@@ -48,7 +48,7 @@ const SideNavContent: React.FC<SideNavProps> = ({ sidebarOpen, setSidebarOpen })
         </button>
       )}
 
-      <nav className="sidebar border-r pt-10"> {/* Ajuste le padding-top pour le logo */}
+      <nav className="sidebar border-r pt-8"> {/* Ajuste le padding-top pour le logo */}
         <Logo />
         <hr className="my-4" />
 

@@ -8,15 +8,14 @@ import { getDonors } from "@/lib/actions/donors.actions";
 import { useModal } from "@/app/store/modalStore";
 import DonorForm, {DonorFormRef} from "../form/DonorForm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { fetchData } from "next-auth/client/_utils";
 
 const { Search } = Input;
 
-interface IDonorWithKey extends IDonor {
-  key: React.Key 
-}
 
 const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [data, setData] = useState<IDonor[]>([]);
+  const [loading, setLoading] = useState(false);
   const [filteredData, setFilteredData] = useState<IDonor[]>([]);
   const [searchText, setSearchText] = useState("");
   const {openModal, closeModal } = useModal();
@@ -25,18 +24,7 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const formRef = useRef<DonorFormRef | null>(null);
   
 
-    const editDonorModal = (id: string) => {
-      openModal({
-        title: "Modifier ce donateur",
-        component: <DonorForm donorId={id} />,
-        okText: "Modifier",
-        cancelText: "Annuler",
-        onOk: async () => {
-          setRefreshTable((prev) => !prev);
-        },
-        footer: null
-      });
-    };
+
 
   
 
@@ -61,24 +49,49 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
       console.error(error);
     }
   };
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const donors = await getDonors();
+      const formattedData = donors.map((b: IDonor) => ({
+        ...b,
+        key: b._id, // Ajoute `key` requis par Ant Design
+      }));
+      setData(formattedData);
+      setFilteredData(formattedData); // Initialise `filteredData` avec toutes les données
+    } catch (error) {
+      message.error("Erreur lors du chargement des donateurs");
+      setLoading(false);
+    }
+  };
   
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const donors = await getDonors();
-        const formattedData = donors.map((b: IDonor) => ({
-          ...b,
-          key: b._id, // Ajoute `key` requis par Ant Design
-        }));
-        setData(formattedData);
-        setFilteredData(formattedData); // Initialise `filteredData` avec toutes les données
-      } catch (error) {
-        message.error("Erreur lors du chargement des donateurs");
-      }
-    };
     fetchData();
-  }, []);
+  }, [refreshTable]);
+
+  const editDonorModal = (donor: IDonor) => {
+    openModal({
+      title: "Modifier ce donateur",
+      component: <DonorForm donor={donor} ref={formRef} />,
+      okText: "Modifier",
+      cancelText: "Annuler",
+      onOk: async () => {
+        if (formRef.current) {
+          try {
+            await formRef.current.validateFields(); // ✅ Valide les champs
+            await formRef.current.submit(); // ✅ Soumet le formulaire
+            closeModal(); // ✅ Ferme la modal après soumission
+            setRefreshTable((prev) => !prev); // ✅ Rafraîchit la table
+          } catch (error) {
+            console.error("Validation échouée (donateur)", error);
+          }
+        }
+      },
+    });
+  };
+  
 
   // Fonction de recherche
   const handleSearch = (value: string) => {
@@ -97,7 +110,7 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
       title: "Nom",
       dataIndex: "name",
       render: (name: string, record: IDonor) => (
-        <Button type="link" onClick={() => editDonorModal(record._id.toString())}>
+        <Button type="link" onClick={() => editDonorModal(record)}>
           {name}
         </Button>
       ),
@@ -125,7 +138,7 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
           <Button
             type="primary"
             onClick={() => {
-              editDonorModal(record._id.toString()); 
+              editDonorModal(record); 
             }}
             icon={<EditOutlined />}
           />
@@ -157,6 +170,7 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
         />
       </div>
       <TableComponent<IDonor>
+        loading={loading}
         columns={columns}
         data={filteredData}
       />
