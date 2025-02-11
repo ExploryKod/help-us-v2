@@ -8,10 +8,8 @@ import { getDonors } from "@/lib/actions/donors.actions";
 import { useModal } from "@/app/store/modalStore";
 import DonorForm, {DonorFormRef} from "../form/DonorForm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { fetchData } from "next-auth/client/_utils";
 
 const { Search } = Input;
-
 
 const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [data, setData] = useState<IDonor[]>([]);
@@ -22,11 +20,6 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [refreshTable, setRefreshTable] = useState(false);
 
   const formRef = useRef<DonorFormRef | null>(null);
-  
-
-
-
-  
 
   const deleteDonor = async (_id: string) => {
     try {

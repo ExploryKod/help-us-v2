@@ -1,32 +1,34 @@
 "use client";
 import { Form, Input, message, Select } from "antd";
-import React, { forwardRef, useImperativeHandle, useEffect } from "react";
+import React, {forwardRef, useImperativeHandle, useEffect, useState} from "react";
+import {IBeneficiary} from "@/types/IBeneficiary";
+import {useModal} from "@/app/store/modalStore";
 
-// ✅ Définition du type pour la ref du formulaire
 export interface BeneficiaryFormRef {
-  submit: () => void;
-  validateFields: () => Promise<void>;
+    submit: () => void;
+    validateFields: () => Promise<void>;
 }
 
 interface BeneficiaryFormProps {
-  beneficiaryId?: string; // ID du bénéficiaire pour la mise à jour
-  initialValues?: {
-    name: string;
-    email: string;
-    needs: string;
-    status: string;
-  };
+    beneficiary?: IBeneficiary;
+    onSuccess?: () => void; // ✅ Ajout pour rafraîchir la liste après soumission
 }
 
 const BeneficiaryForm = forwardRef<BeneficiaryFormRef, BeneficiaryFormProps>(
-  ({ beneficiaryId, initialValues }, ref) => {
+  ({ beneficiary, onSuccess }, ref) => {
     const [form] = Form.useForm();
+    const { closeModal } = useModal();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-      if (initialValues) {
-        form.setFieldsValue(initialValues);
+      if (beneficiary) {
+          console.log("Beneficiary ", beneficiary);
+        form.setFieldsValue(beneficiary);
+      } else  {
+        form.resetFields();
       }
-    }, [initialValues, form]);
+    }, [beneficiary, form]);
+
 
     useImperativeHandle(ref, () => ({
       submit: () => form.submit(),
@@ -34,27 +36,27 @@ const BeneficiaryForm = forwardRef<BeneficiaryFormRef, BeneficiaryFormProps>(
     }));
 
     const handleSubmit = async (values: any) => {
+      setLoading(true);
       try {
-        const response = await fetch(
-          `/api/beneficiaries${beneficiaryId ? `/${beneficiaryId}` : ""}`,
-          {
-            method: beneficiaryId ? "PUT" : "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(values),
-          }
-        );
+        console.warn("benef", beneficiary);
+        const response = await fetch(`/api/beneficiaries${beneficiary?._id ? `/${beneficiary._id}` : ""}`, {
+          method: beneficiary?._id ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
 
         if (!response.ok) {
-          throw new Error(`Erreur lors de la ${beneficiaryId ? "mise à jour" : "création"}`);
+          console.error(`Erreur lors de la ${beneficiary?._id ? "mise à jour" : "création"}`);
+          setLoading(false);
         }
 
-        message.success(
-          `Bénéficiaire ${beneficiaryId ? "mis à jour" : "ajouté"} avec succès`
-        );
-        form.resetFields();
+        message.success(`Donateur ${beneficiary?._id ? "mis à jour" : "ajouté"} avec succès`);
+        onSuccess?.(); // ✅ Rafraîchit la liste après soumission
       } catch (error) {
-        message.error(`Échec de la ${beneficiaryId ? "mise à jour" : "création"}`);
+        message.error(`Échec de la ${beneficiary?._id ? "mise à jour" : "création"}`);
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 

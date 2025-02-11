@@ -17,7 +17,7 @@ const page = () => {
   const addDonorModal = () => {
     openModal({
       title: "Ajouter un donateur",
-      component: <DonorForm ref={formRef} onSuccess={() => setRefreshTable((prev) => !prev)} />, // ✅ Passe onSuccess
+      component: <DonorForm ref={formRef} onSuccess={() => setRefreshTable((prev) => !prev)} />, // ✅ Passe onSuccess ici appel direct (bug ?)
       okText: "Ajouter",
       cancelText: "Annuler",
       onOk: async () => {
