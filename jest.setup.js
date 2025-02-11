@@ -1,5 +1,20 @@
 import '@testing-library/jest-dom'
 
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  redirect: jest.fn(),
+}))
+
+// Mock next-auth
+jest.mock('next-auth/next', () => ({
+  getServerSession: jest.fn(() => ({
+    user: {
+      _id: 'test-user-id',
+      provider: 'credentials'
+    }
+  }))
+}))
+
 // Add TextEncoder/TextDecoder for mongodb-memory-server
 const { TextEncoder, TextDecoder } = require('util');
 global.TextEncoder = TextEncoder;

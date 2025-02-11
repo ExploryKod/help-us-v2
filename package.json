@@ -10,9 +10,9 @@
     "seed": "curl -X POST http://localhost:3000/api/seeds",
     "clear": "curl -X POST http://localhost:3000/api/seeds/clear",
     "clear:bdd": "concurrently \"pnpm run dev\" \"sleep 5 && npm run clear\"",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "jest --detectOpenHandles",
+    "test:watch": "jest --watch --detectOpenHandles",
+    "test:coverage": "jest --coverage --detectOpenHandles"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",

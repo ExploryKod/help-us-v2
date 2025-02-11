@@ -19,16 +19,34 @@ const BeneficiaryTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [refreshTable, setRefreshTable] = useState(false);
   
 
-  const editBeneficiaryModal = (id: string) => {
-    openModal({
-      title: "Modifier un bénéficiaire",
-      component: <BeneficiaryForm />,
-      okText: "Modifier",
-      cancelText: "Annuler",
-      onOk: async () => {
-        setRefreshTable((prev) => !prev);
-      },
-    });
+  const editBeneficiaryModal = async (id: string) => {
+    try {
+      // Fetch beneficiary data
+      const response = await fetch(`/api/beneficiaries/${id}`);
+      if (!response.ok) throw new Error('Failed to fetch beneficiary');
+      const beneficiary = await response.json();
+
+      openModal({
+        title: "Modifier un bénéficiaire",
+        component: <BeneficiaryForm 
+          beneficiaryId={id}
+          initialValues={{
+            name: beneficiary.name,
+            email: beneficiary.email,
+            needs: beneficiary.needs,
+            status: beneficiary.status
+          }}
+        />,
+        okText: "Modifier",
+        cancelText: "Annuler",
+        onOk: async () => {
+          setRefreshTable((prev) => !prev);
+        },
+      });
+    } catch (error) {
+      message.error("Erreur lors du chargement des données du bénéficiaire");
+      console.error(error);
+    }
   };
 
   const deleteBeneficiary = async (_id: string) => {
