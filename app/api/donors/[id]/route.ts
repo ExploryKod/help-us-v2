@@ -53,10 +53,14 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   try {
     const id = params.id;
     const donor = await Donor.findByIdAndDelete(id);
-    return NextResponse.json(donor);
+    if (!donor) {
+      return NextResponse.json({ error: "Donateur introuvable" }, { status: 404 });
+    }
+    return NextResponse.json({ message: "Donateur supprimé avec succès" });
   }
   catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Une erreur est survenue lors de la suppression du donateur." }, { status: 500 });
   }
 }
+

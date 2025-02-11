@@ -85,9 +85,18 @@ body,
   @apply p-8;
 }
 
-h1 {
-  font-size: 32px;
+h1, h2, h3, h4, h5, h6 {
+  @apply text-hu-black
 }
+
+h1 {
+ @apply text-3xl
+}
+
+/* =========== Buttons =========== */
+
+
+
 /* ========== SIDEBAR  ========== */
 #sidebar {
   @apply z-50;
@@ -95,17 +104,17 @@ h1 {
 
 /* Link styles */
 #sidebar a {
-  @apply rounded-md text-base p-3;
+  @apply rounded-md text-hu-black p-3;
 }
 
 #sidebar a:hover {
-  @apply bg-hu-primary text-white rounded-md;
+  @apply bg-hu-tertiary text-white rounded-md;
   transition: all 0.3s ease;
 }
 
 /* Active link styles */
 #sidebar .active {
-  @apply bg-hu-primary text-white rounded-md;
+  @apply bg-hu-tertiary text-white rounded-md;
 }
 
 /* SVG styles for active and hover states */
@@ -132,9 +141,28 @@ h1 {
   @apply p-4 space-y-2;
 }
 
-.section-title {
-  @apply text-sm text-black ml-5 uppercase;
+.section {
+  position: relative;
 }
+
+.section-title {
+  @apply text-hu-black text-lg font-semibold text-center;
+  position: relative;
+}
+
+.section-title::before,
+.section-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc((100%/3)*0.8);
+  height: 2px;
+  background-color: currentColor;
+}
+
+.section-title::before { left: 0 }
+.section-title::after { right: 0 }
 
 /* Navigation link styles */
 .nav-link {
