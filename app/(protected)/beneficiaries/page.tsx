@@ -16,7 +16,7 @@ const Page = () => {
   const addBeneficiaryModal = () => {
     openModal({
       title: "Ajouter un bénéficiaire",
-      component: <BeneficiaryForm ref={formRef} />, // ✅ Passe correctement la ref
+      component: <BeneficiaryForm ref={formRef} onSuccess={() => setRefreshTable((prev) => !prev)} />, // ✅ Passe correctement la ref
       okText: "Ajouter",
       cancelText: "Annuler",
       onOk: async () => {

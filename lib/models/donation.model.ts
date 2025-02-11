@@ -1,6 +1,16 @@
 import mongoose from "mongoose"
 
 const donationSchema = new mongoose.Schema({
+  donorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Donor',
+    required: true
+  },
+  beneficiaryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Beneficiary',
+    required: true
+  },
   amount: {
     type: Number,
     required: true
@@ -10,12 +20,10 @@ const donationSchema = new mongoose.Schema({
     required: true
   },
   date: {
-    type: String,
+    type: Date,
     required: true
   },
-  notes: {
-    type: String,
-  }
+  notes: String
 }, { timestamps: true })
 
 const Donation = mongoose.models.Donation || mongoose.model("Donation", donationSchema)

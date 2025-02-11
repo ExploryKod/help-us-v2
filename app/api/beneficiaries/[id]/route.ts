@@ -2,6 +2,7 @@ import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { Beneficiary } from "@/lib/models/beneficiary.model";
+import {Donor} from "@/lib/models/donors.model";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   await connectDB();
@@ -30,6 +31,21 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ error: "Une erreur est survenue lors de la récupération du bénéficiaire." }, { status: 500 });
   }
 }
+
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  await connectDB();
+  try {
+    const id = params.id;
+    const body = await req.json();
+    const beneficiary = await Beneficiary.findByIdAndUpdate(id, body, { new: true });
+    return NextResponse.json(beneficiary);
+  }
+  catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Une erreur est survenue lors de la modification du bénéficiaire." }, { status: 500 });
+  }
+}
+
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   await connectDB();

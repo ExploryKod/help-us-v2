@@ -27,3 +27,16 @@ export async function POST(req: NextRequest) {
 }
 
 
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  await connectDB();
+  try {
+    const id = params.id;
+    const body = await req.json();
+    const donor = await Donor.findByIdAndUpdate(id, body, { new: true });
+    return NextResponse.json(donor);
+  }
+  catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Une erreur est survenue lors de la modification de la donor." }, { status: 500 });
+  }
+}

@@ -23,6 +23,18 @@ export default withAuth(
           {
               path: '/beneficiaries',
               requiredRole: ['admin']
+          },
+          {
+              path: 'api/donations',
+              requiredRole: ['admin']
+          },
+          {
+              path: 'api/donors',
+              requiredRole: ['admin']
+          },
+          {
+              path: 'api/beneficiaries',
+              requiredRole: ['admin']
           }
       ];
 
@@ -53,4 +65,7 @@ export const config = { matcher:
         "/dashboard/:path*",
         "/donations/:path*",
         "/donors/:path*",
-        "/beneficiaries/:path*"] };
+        "/beneficiaries/:path*," +
+        "api/donors/:path*," +
+        "api/beneficiaries/:path*," +
+        "api/donations/:path*",] };
