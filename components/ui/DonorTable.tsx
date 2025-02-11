@@ -52,7 +52,7 @@ const DonorTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
         key: b._id, // Ajoute `key` requis par Ant Design
       }));
       setData(formattedData);
-      setFilteredData(formattedData); // Initialise `filteredData` avec toutes les données
+      setFilteredData(formattedData);
     } catch (error) {
       message.error("Erreur lors du chargement des donateurs");
       setLoading(false);
