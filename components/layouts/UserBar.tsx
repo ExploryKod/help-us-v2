@@ -72,10 +72,18 @@ const UserBar: React.FC = () => {
 
   return (
     <div className="flex space-x-2">
-      <Dropdown menu={{ items }} placement="bottomRight" trigger={["hover"]}>
-        <Avatar style={{ backgroundColor: avatarColor }} size="large">
-          {getInitials(session?.user?.name!)}
-        </Avatar>
+      <Dropdown menu={{ items }} placement="bottomRight" trigger={['hover']}>
+        {session?.user && (
+          <Avatar
+            style={{ backgroundColor: avatarColor }}
+            size="large"
+          >
+
+            {session.user.firstName && session.user.lastName ?
+              session.user.firstName[0] + session.user.lastName[0] :
+              session.user.name[0] + session.user.name[1]}
+          </Avatar>
+        )}
       </Dropdown>
     </div>
   );
