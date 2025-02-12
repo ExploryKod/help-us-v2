@@ -115,7 +115,7 @@ const DonationForm = forwardRef<DonationFormRef, DonationFormProps>(
           name="amount" 
           rules={[{ required: true, message: "Montant requis" }]}
         >
-          <InputNumber addonAfter={"€"} placeholder="Entrez le montant" />
+          <InputNumber style={{width: '100%' }} addonAfter={"€"} placeholder="Entrez le montant" />
         </Form.Item>
 
         <Form.Item 

@@ -28,8 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               enableSystem
               disableTransitionOnChange
             >
-              <LayoutWrapper>{children}</LayoutWrapper>
-              <GlobalModal /> {/* La modal est maintenant accessible partout */}
+              {children}
               <Toaster />
             </ThemeProvider>
           </AntdRegistry>
