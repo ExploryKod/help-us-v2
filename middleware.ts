@@ -66,6 +66,6 @@ export const config = { matcher:
           "/donations/:path*",
           "/donors/:path*",
           "/beneficiaries/:path*",
-          "api/donors/:path*,",
-          "api/beneficiaries/:path*,",
-          "api/donations/:path*",] };
+          "/api/donors/:path*,",
+          "/api/beneficiaries/:path*,",
+          "/api/donations/:path*",] };
