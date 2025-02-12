@@ -10,7 +10,17 @@ export async function getBeneficiaries(): Promise<IBeneficiary[]> {
 
   try {
     const beneficiaries: IBeneficiary[] = await Beneficiary.find();
-    return beneficiaries;
+
+    return beneficiaries.map(doc => ({
+      _id: doc._id.toString(),
+      name: doc.name,
+      email: doc.email,
+      needs: doc.needs,
+      status: doc.status,
+      createdAt: doc.createdAt.toString(),
+      updatedAt: doc.updatedAt.toString()
+    }));
+
   } catch (error) {
     console.error("Erreur lors de la récupération des beneficiaries :", error);
     return [];

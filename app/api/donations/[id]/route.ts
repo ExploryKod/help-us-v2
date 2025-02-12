@@ -22,7 +22,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
     const donation = await Donation.findById(id)
       .populate('beneficiaryId')
-      .populate('donorId');
+      .populate('donorId')
 
     if (!donation) {
       return NextResponse.json({ error: "Donation non trouvée." }, { status: 404 });

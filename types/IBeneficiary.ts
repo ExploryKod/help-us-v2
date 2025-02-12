@@ -6,12 +6,12 @@ export enum BeneficiaryStatus {
     URGENT = "urgent",
 }
 export interface IBeneficiary extends Partial<Document> {
-    _id: mongoose.Types.ObjectId;
+    _id: string;
     name: string;
     email: string;
     needs: string;
     status?: BeneficiaryStatus;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
   
