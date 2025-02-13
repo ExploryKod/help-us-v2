@@ -13,7 +13,7 @@ const Unauthorized = () => {
       <p className="text-red-500 font-semibold">Vous n&apos;avez pas l&apos;autorisation d&apos;accéder à cette ressource.</p>
         <Button
           onClick={() => router.push("/")}
-          className="mx-auto max-w-fit mt-2 bg-orange-800 rounded px-4 py-2 text-white"
+          className="mx-auto max-w-fit mt-2 bg-orange-800 hover:bg-orange-500 rounded px-4 py-2 text-white"
         >
             Retour
         </Button>
