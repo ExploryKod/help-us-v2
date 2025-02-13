@@ -11,6 +11,7 @@ import {
 } from 'stream-chat-react';
 import { useStreamChat } from '@/providers/stream-chat-provider';
 import { useSession } from 'next-auth/react';
+import { Spin } from 'antd';
 
 interface ChatComponentProps {
   channelId?: string;
@@ -74,10 +75,10 @@ export default function ChatComponent({ channelId, members }: ChatComponentProps
     initChannel();
   }, [client, session, channelId, members]);
 
-  if (loading) return <div>Loading chat...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!channel) return <div>Unable to load chat</div>;
+  if (loading) return <div className="flex justify-center items-center"><Spin size="large" /></div>
 
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!channel) return <div className="text-center">Impossible de charger le chat<br/>Patientez ou Réactualisez la page !</div>;
   return (
     <div className="h-[600px]">
       <Channel channel={channel}>

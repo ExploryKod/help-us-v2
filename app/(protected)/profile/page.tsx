@@ -3,15 +3,14 @@
 import { useEffect } from "react";
 import { updateUserProfile, UpdateUserProfileParams } from "@/lib/actions/auth.actions";
 import { SaveOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Tooltip } from "antd";
+import { Button, Form, Input, Tooltip, message } from "antd";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+
 const UserProfileFormInfo = () => {
+  const { data: session, update: updateSession } = useSession();
+  const [form] = Form.useForm();
 
-  const { data: session } = useSession();
-  const [form] = Form.useForm(); // 🔥 Utilisation d'Ant Design pour gérer le formulaire
-
-  // ✅ Met à jour les valeurs du formulaire quand `session` est chargé
   useEffect(() => {
     if (session?.user) {
       form.setFieldsValue({
@@ -23,7 +22,22 @@ const UserProfileFormInfo = () => {
   }, [session, form]);
 
   const handleSubmit = async (values: UpdateUserProfileParams) => {
-    await updateUserProfile(values);
+    try {
+      const messageKey = 'updating';
+      message.loading({ content: 'Mise à jour du profil...', key: messageKey });
+      
+      await updateUserProfile(values);
+      
+      
+      message.success({ 
+        content: 'Profil mis à jour avec succès !', 
+        key: messageKey,
+        duration: 3 
+      });
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      message.error('Erreur lors de la mise à jour du profil');
+    }
   };
 
   return (
@@ -48,21 +62,35 @@ const UserProfileFormInfo = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-x-4">
-          <Form.Item name="firstName" label="Prénom">
+          <Form.Item 
+            name="firstName" 
+            label="Prénom"
+            rules={[{ required: true, message: 'Le prénom est requis' }]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item name="lastName" label="Nom">
+          <Form.Item 
+            name="lastName" 
+            label="Nom"
+            rules={[{ required: true, message: 'Le nom est requis' }]}
+          >
             <Input />
           </Form.Item>
         </div>
-
 
         <hr className="mt-6 border-b-1" />
         <h6 className="text-pz-blue text-sm mt-3 mb-6 font-bold uppercase">
           Changer mon adresse email
         </h6>
-        <Form.Item name="email" label="Email">
+        <Form.Item 
+          name="email" 
+          label="Email"
+          rules={[
+            { required: true, message: 'L\'email est requis' },
+            { type: 'email', message: 'Email invalide' }
+          ]}
+        >
           <Input />
         </Form.Item>
 
@@ -70,7 +98,7 @@ const UserProfileFormInfo = () => {
       
         <div className="flex flex-wrap">
           <div className="flex w-full mt-3 justify-center space-x-4">
-            <Button className="btn btn-primary">Supprimer mon compte</Button>
+            <Button danger>Supprimer mon compte</Button>
           </div>
         </div>
       </Form>
