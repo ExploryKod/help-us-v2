@@ -1,12 +1,16 @@
-Projet de cours avec Next JS 15
 
-Un tableau de bord pour aider les adhérents d'une association à gérer des dons et des bénéficiaires. 
+<div align="center">
+  <img src='hands.jpg' width="30%">
+</div>
 
-Il est en ligne donc il donne aussi de l'information pour un utilisateur qui tombe dessus.
+## PROJET DE COURS (YNOV) - NEXTJS 15, NextAuth v4 et MongoDB
+
+>Un tableau de bord pour aider les adhérents d'une association à gérer des dons et des bénéficiaires.
+>Il est en ligne donc il donne aussi de l'information si utilisateur navigue sans être adhérent et donc peut demander à rejoindre l'association.
 
 ## Environment
 
-Dans le .env :
+Dans le `.env` que vous créez à la racine :
 
 ```env
 NEXTAUTH_URL="http://localhost:3000"
