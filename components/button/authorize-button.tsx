@@ -1,6 +1,7 @@
+"use client"
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
+import { Button } from 'antd';
 import { CheckCircle } from 'lucide-react';
 
 export function AuthorizeButton() {
@@ -24,19 +25,19 @@ export function AuthorizeButton() {
       }
 
       const data = await response.json();
-      console.log('Utilisateur mis à jour:', data);
     } catch (error) {
       console.error('Erreur:', error);
     } finally {
       setLoading(false);
     }
   };
-console.log('session', session?.user._id)
+
   return (
     <Button
+        type={"primary"}
       onClick={handleAuthorize}
       disabled={!session?.user?._id || loading}
-      className="gap-2"
+      className="bg-hu-tertiary text-white hover:opacity-75 p-2"
     >
       {loading ? (
         <>

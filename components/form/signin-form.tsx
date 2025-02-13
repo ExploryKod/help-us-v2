@@ -65,7 +65,7 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
       <p className="text-center text-sm text-gray-600 mt-4">
         Pas encore de compte?&nbsp;
         <Link href="/signup" className="text-hu-tertiary hover:underline">
-          Sign Up
+          S&apos;inscrire
         </Link>
       </p>
     </div>

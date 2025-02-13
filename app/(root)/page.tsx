@@ -1,144 +1,162 @@
-"use client"
 import { Heart, HeartHandshake, Users } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import { nextauthOptions } from "@/lib/nextauth-options"
-import Link from 'next/link';
+import { getDonations } from "@/lib/actions/donations.actions";
+import { getBeneficiaries } from "@/lib/actions/beneficiaries.actions";
+import { getDonors } from "@/lib/actions/donors.actions";
 import Image from "next/image";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { nextauthOptions } from "@/lib/nextauth-options";
 
-export default function Home() {
-  const { data: session } = useSession();
+export default async function Home() {
+
+  const session = await getServerSession(nextauthOptions);
+  const [donations, beneficiaries, donors] = await Promise.all([
+    getDonations(),
+    getBeneficiaries(),
+    getDonors(),
+  ]);
 
   const stats = {
-    donors: 150,
-    beneficiaries: 75,
-    donations: 250
+    donors: donors.length || 0,
+    beneficiaries: beneficiaries.length || 0,
+    donations: donations.length || 0,
   };
 
+  const roles = {
+    'user' : 'un nouvel arrivant',
+    'admin' : 'adhérant',
+    'donor' : 'donateur',
+    'beneficiary' : 'bénéficiaire'
+  }
+
   return (
-    <>
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="/hands.jpg"
-          alt="Background Hands"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          className="opacity-10"
-          priority
-        />
-      </div>
+      <>
+        <div className="absolute inset-0 -z-10">
+          <Image
+              src="/hands.jpg"
+              alt="Background Hands"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              className="opacity-10"
+              priority
+          />
+        </div>
 
-      <div className="min-h-screen-1/2 rounded">
+        <div className="min-h-screen-1/2 rounded">
+          <div className="container mx-auto px-4 py-12">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="flex justify-center mb-8">
+                <HeartHandshake className="w-16 h-16 text-hu-tertiary animate-pulse" />
+              </div>
 
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto text-center">
 
-            <div className="flex justify-center mb-8">
-              <HeartHandshake className="w-16 h-16 text-hu-tertiary animate-pulse" />
-            </div>
-          
-            <h1 className="text-5xl font-bold text-gray-800 mb-4">
-            Bienvenue sur <em className="text-hu-tertiary">Help us</em>
-            </h1>
-          
-            <p className="text-hu-tertiary mb-12">
-            Ensemble, créons un monde plus solidaire
-            </p>
-
-            {(session && session.user.role === 'user') ? (<>
-              <p className="text-hu-tertiary mb-12">
-                Bonjour {session.user.name}, bienvenue chez <em>Help Us</em>.
+              <h1 className="text-5xl font-bold text-gray-800 mb-4">
+                Bienvenue <span className={"text-hu-tertiary font-bold"}>{session ? session.user.name : "" }</span> sur <em className="text-hu-tertiary">Help us</em>
+              </h1>
+              <p className="text-hu-tertiary mb-2">
+                Ensemble, créons un monde plus solidaire
               </p>
-              <p className="text-hu-tertiary mb-12">Vous êtes tout juste inscris chez nous : nous sommes susceptible de vous contacter pour échanger
-                avec vous afin d&apos;en savoir
-                plus sur vos raisons d&apos;engagement
-                avec nous que vous soyez future bénéficiaire, donateur ou bénévole.</p>
-              <p className="text-hu-tertiary mb-12">Vous aurez alors accès à vos espaces d&apos;administration ici.</p>
-            </>) : null }
+              {session ? (
+                  <p className={"text-hu-tertiary mb-12"}>
+                    Vous êtes {roles[session.user.role]} et nous sommes heureux de vous retrouver.
+                   </p>
+              ): null}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
-                <div className="flex justify-center mb-4">
-                  <Users className="w-12 h-12 text-hu-tertiary" />
-                </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">
-                  {stats.donors}
-                </h3>
-                <p className="text-gray-600">Donateurs actifs</p>
-              </div>
-            
-              <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
-                <div className="flex justify-center mb-4">
-                  <Heart className="w-12 h-12 text-pink-500" />
-                </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">
-                  {stats.beneficiaries}
-                </h3>
-                <p className="text-gray-600">Bénéficiaires</p>
-              </div>
-            
-              <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
-                <div className="flex justify-center mb-4">
-                  <HeartHandshake className="w-12 h-12 text-purple-500" />
-                </div>
-                <h3 className="text-3xl font-bold text-gray-800 mb-2">
-                  {stats.donations}
-                </h3>
-                <p className="text-gray-600">Donations réalisées</p>
-              </div>
-            </div>
-
-            <div className="mt-12">
-              <div className="flex gap-2 justify-center">
-            
-                {session ? (
-                  <>
-                    {session.user.role !== 'user' ?
-                        (<div className="flex flex-col">
-                      <Link
-                        href="/dashboard"
-                        className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white
-                           rounded-lg hover:bg-hu-black transition-colors
-                           text-lg font-medium shadow-sm hover:shadow-md"
-                      >
-                  Accéder au Tableau de Bord
-                      </Link>
-                    </div>) : (<div className="flex flex-col">
-                          <Link
-                              href="/api/auth/signout"
-                              className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white
-                           rounded-lg hover:bg-hu-black transition-colors
-                           text-lg font-medium shadow-sm hover:shadow-md"
-                          >
-                            Se déconnecter
-                          </Link>
-                        </div>)}
-                  </>
-                ) : (
-                  <div className={"flex flex-col"}>
-                    <Link className={`z-10 inline-block px-6 py-3 bg-hu-secondary text-white 
-                            rounded-lg hover:bg-hu-black transition-colors 
-                            text-lg font-medium shadow-sm hover:shadow-md`} href="/signin">
-                     Se Connecter
-                    </Link>
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {donors.length > 0 && (
+                    <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
+                      <div className="flex justify-center mb-4">
+                        <Users className="w-12 h-12 text-hu-tertiary" />
+                      </div>
+                      <h3 className="text-3xl font-bold text-gray-800 mb-2">
+                        {stats.donors}
+                      </h3>
+                      <p className="text-gray-600">Donateurs actifs</p>
+                    </div>
                 )}
-                {!session ?
-                    (<div className="flex flex-col justify-end">
-                  <Link 
-                    href="/join"
-                    className="z-10 inline-block px-6 py-3 bg-orange-500 text-white
-                           rounded-lg hover:bg-orange-600 transition-colors 
-                           text-lg font-medium shadow-sm hover:shadow-md"
-                  >
-                  Agir avec nous
-                  </Link>
-                </div>):null}
+                {beneficiaries.length > 0 && (
+                    <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
+                      <div className="flex justify-center mb-4">
+                        <Heart className="w-12 h-12 text-pink-500" />
+                      </div>
+                      <h3 className="text-3xl font-bold text-gray-800 mb-2">
+                        {stats.beneficiaries}
+                      </h3>
+                      <p className="text-gray-600">Bénéficiaires</p>
+                    </div>
+                )}
+                {donations.length > 0 && (
+                    <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
+                      <div className="flex justify-center mb-4">
+                        <HeartHandshake className="w-12 h-12 text-purple-500" />
+                      </div>
+                      <h3 className="text-3xl font-bold text-gray-800 mb-2">
+                        {stats.donations}
+                      </h3>
+                      <p className="text-gray-600">Donations réalisées</p>
+                    </div>
+                )}
+              </div>
+
+              <div className="mt-12">
+                <div className="flex gap-2 justify-center">
+                  {session ? (
+                      <>
+                        {session.user.role !== "user" ? (
+                            <div className="flex flex-col">
+                              <Link
+                                  href="/dashboard"
+                                  prefetch={true}
+                                  className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                              >
+                                Accéder au Tableau de Bord
+                              </Link>
+                            </div>
+                        ) : (
+                            <div className="flex flex-row gap-3">
+                            <Link
+                                href="/update"
+                                prefetch={true}
+                                className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                            >
+                              Adhérer en ligne
+                            </Link>
+                              <Link
+                                  href="/api/auth/signout"
+                                  prefetch={true}
+                                  className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                              >
+                                Se déconnecter
+                              </Link>
+                            </div>
+                        )}
+                      </>
+                  ) : (
+                      <>
+                        <div className="flex flex-col">
+                          <Link
+                              className="z-10 inline-block px-6 py-3 bg-hu-secondary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                              href="/signin"
+                          >
+                            Se Connecter
+                          </Link>
+                        </div>
+                        <div className="flex flex-col justify-end">
+                          <Link
+                              href="/join"
+                              className="z-10 inline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                          >
+                            Agir avec nous
+                          </Link>
+                        </div>
+                      </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </>
   );
 }
