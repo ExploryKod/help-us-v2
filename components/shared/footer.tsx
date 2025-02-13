@@ -1,47 +1,66 @@
-import Link from "next/link"
-import { footerLinks } from "@/constants"
-
-import { Code } from "lucide-react"
+import React from 'react'
+import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col text-gray-500 text-sm mt-5 border-t border-gray-100">
-      <div className="flex flex-wrap justify-center max-sm:flex-col gap-10 px-6 py-10 sm:gap-20">
-        {footerLinks.map((links) => (
-          <div key={links.title}>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-200">
-              {links.title}
-            </h3>
-            <div className="flex flex-col gap-2">
-              {links.links.map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.url}
-                  className="md:text-xs"
-                >
-                  {link.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
+    <footer className="static bottom-0 w-full bg-jb-primary bg-opacity-15 text-black">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
+        {/* Section 1: Contact */}
+        <div className="space-y-3">
+          <h2 className="text-base font-semibold font-yusei">HelpUs</h2>
+          <p className="text-sm">5 rue des Oliviers, Evry-Courcouronnes</p>
+          <p className="text-sm">91080, France</p>
+          <a href="tel:0630578950" className="text-blue-400 text-sm hover:underline">06 30 57 89 50</a>
+        </div>
 
+        {/* Section 2: Horaires */}
+        <div className="space-y-3">
+          <h2 className="text-base font-semibold font-yusei">Heures d&apos;ouverture</h2>
+          <ul className="space-y-1 font-antic text-sm">
+            <li><span className="font-semibold">Lun, Mer, Ven:</span> 10h - 19h</li>
+            <li><span className="font-semibold">Jeu:</span> 10h - 14h</li>
+            <li><span className="font-semibold">Sam:</span> 10h - 16h</li>
+          </ul>
+        </div>
+
+        {/* Section 3: À propos */}
+        {/* <div className="space-y-3">
+          <h2 className="text-base font-semibold font-yusei">À propos</h2>
+          <ul className="flex flex-col space-y-2 font-antic text-sm">
+            <li>
+              <Link
+                href=""
+                className="footer-link"
+                target="_blank"
+                >
+                Charte de confidentialité
+              </Link>
+            </li>
+            <li>
+            <Link
+                href=""
+                className="footer-link"
+                target="_blank"
+                >
+                Charte de confidentialité
+              </Link>
+            </li>
+            <li>
+            <Link
+                href=""
+                className="footer-link"
+                target="_blank"
+                >
+                Charte de confidentialité
+              </Link>
+            </li>
+          </ul>
+        </div> */}
       </div>
-      <div className="flex flex-wrap items-center justify-between border-t border-gray-100 gap-8 px-6 py-4 sm:px-20">
-        <div className="flex items-center gap-2">
-          <Code />
-          <p className="text-gray-900 dark:text-gray-200">
-            &copy; Web
-          </p>
-        </div>
-        <div className="flex max-sm:flex-col gap-2 sm:gap-4">
-          <Link href="/">
-            Privacy Notice
-          </Link>
-          <Link href="/">
-            Conditions of Use
-          </Link>
-        </div>
+
+      {/* Section Footer Bas */}
+      <div className="py-3 border-t border-gray-300 text-center text-gray-500 text-xs">
+        <p>&copy; 2024 HelpUs. Tous droits réservés.</p>
       </div>
     </footer>
   )

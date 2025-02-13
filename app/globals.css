@@ -80,3 +80,115 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.p-frame {
+  @apply p-8;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply text-hu-black
+}
+
+h1 {
+ @apply text-3xl
+}
+
+/* =========== Buttons =========== */
+
+
+
+/* ========== SIDEBAR  ========== */
+#sidebar {
+  @apply z-50;
+}
+
+/* Link styles */
+#sidebar a {
+  @apply rounded-md text-hu-black p-3;
+}
+
+#sidebar a:hover {
+  @apply bg-hu-tertiary text-white rounded-md;
+  transition: all 0.3s ease;
+}
+
+/* Active link styles */
+#sidebar .active {
+  @apply bg-hu-tertiary text-white rounded-md;
+}
+
+/* SVG styles for active and hover states */
+#sidebar .active svg > path,
+#sidebar a:hover svg > path {
+  stroke: white;
+}
+
+/* Sidebar container styling */
+.sidebar {
+  @apply h-full flex flex-col bg-white;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  #linkLogo {
+    @apply justify-center;
+  }
+}
+
+/* Section styling */
+.sidebar .section {
+  @apply p-4 space-y-2;
+}
+
+.section {
+  position: relative;
+}
+
+.section-title {
+  @apply text-hu-black text-lg font-semibold text-center;
+  position: relative;
+}
+
+/* Navigation link styles */
+.nav-link {
+  @apply flex items-center py-2 px-3 my-1 font-medium rounded-md relative;
+  transition: all 0.3s ease;
+}
+
+/* Icon and label styling within links */
+.nav-link .icon {
+  @apply mr-3;
+}
+
+/* Link label for expand/collapse */
+.nav-link .link-label {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+  transition: width 0.3s ease;
+}
+
+.nav-link.expanded .link-label {
+  @apply w-52;
+}
+
+.nav-link.collapsed .link-label {
+  @apply w-0;
+}
+
+/* Logout button styling */
+.logout-button {
+  @apply p-4 mt-auto;
+}
+/* ========== SIDEBAR END  ========== */
+
+/* ========== FOOTER  ========== */
+.footer-link {
+  @apply box-border p-1 rounded-md w-fit transition-all duration-300 ease-in-out;
+}
+
+.footer-link:hover {
+  @apply bg-hu-primary text-white;
+}
+/* ========== FOOTER END  ========== */
+
+

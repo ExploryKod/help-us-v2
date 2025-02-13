@@ -1,35 +1,30 @@
-import Link from "next/link"
+import { MenuOutlined } from "@ant-design/icons";
+import React from "react";
+import UserBar from "../layouts/UserBar";
 
-import MainNav from "@/components/shared/main-nav"
-import UserNav from "@/components/shared/user-nav"
-import ModeToggle from "@/components/shared/mode-toggle"
-import { Code, Home, Info, Contact } from "lucide-react"
-
-const Navbar = () => {
-  return (
-    <header className="w-full fixed z-10 top-0 bg-gray-100 dark:bg-gray-900 border-b border-gray-200">
-      <nav className="h-16 px-4 flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Link href="/">
-            HelpUs
-          </Link>
-          <Link href="/" className="text-lg font-semibold">
-            <Home className="inline-block w-5 h-5 mr-1" /> Home
-          </Link>
-          <Link href="/about" className="text-lg font-semibold">
-            <Info className="inline-block w-5 h-5 mr-1" /> About
-          </Link>
-          <Link href="/contact" className="text-lg font-semibold">
-            <Contact className="inline-block w-5 h-5 mr-1" /> Contact
-          </Link>
-        </div>
-        <div className="flex items-center space-x-4">
-          <ModeToggle />
-          <UserNav />
-        </div>
-      </nav>
-    </header>
-  )
+interface HeaderProps {
+  setSidebarOpen: (open: boolean) => void;
 }
 
-export default Navbar
+const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
+  // const user = useAppSelector(selectUser);
+
+  return (
+    <header className="flex items-center justify-between p-4 bg-white shadow">
+      {/* Bouton hamburger visible uniquement en mobile */}
+      <button onClick={() => setSidebarOpen(true)} className="p-2 md:hidden">
+        <MenuOutlined className="text-2xl" />
+      </button>
+
+      {/* Titre de l'application centré sur les écrans larges */}
+      {/* <h1 className="text-lg text-jb-primary font-semibold flex-1 text-center md:text-left">
+        Bienvenue {user?.firstName} {user?.lastName} !
+      </h1> */}
+      <div className="flex items-center justify-end w-full max-w-screen-xl px-4 mx-auto">
+        <UserBar />
+      </div>
+    </header>
+  );
+};
+
+export default Header;

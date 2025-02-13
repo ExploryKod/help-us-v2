@@ -1,7 +1,17 @@
 import mongoose from "mongoose"
 
 const donationSchema = new mongoose.Schema({
-  montant: {
+  donorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Donor',
+    required: true
+  },
+  beneficiaryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Beneficiary',
+    required: true
+  },
+  amount: {
     type: Number,
     required: true
   },
@@ -13,9 +23,7 @@ const donationSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  grade: {
-    type: String
-  }
+  notes: String
 }, { timestamps: true })
 
 const Donation = mongoose.models.Donation || mongoose.model("Donation", donationSchema)

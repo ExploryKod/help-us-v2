@@ -1,6 +1,14 @@
 import mongoose from "mongoose"
 
 const userSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
+  },  
   name: {
     type: String,
     required: true
@@ -18,7 +26,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "user"
+    enum: ['user', 'admin', 'beneficiary', 'donor'],
+    default: 'user'
   },
   provider: {
     type: String,

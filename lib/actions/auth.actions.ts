@@ -1,4 +1,4 @@
-"use server" // 開頭統一加上"use server"即可
+"use server"
 
 import { getServerSession } from "next-auth/next"
 import { Account, Profile } from "next-auth"
@@ -7,6 +7,7 @@ import bcrypt from "bcrypt"
 import { nextauthOptions } from "@/lib/nextauth-options"
 import connectDB from "@/lib/mongodb"
 import User from "@/lib/models/user.model"
+import { Fira_Sans_Extra_Condensed } from "next/font/google"
 
 export async function getUserSession() {
   const session = await getServerSession(nextauthOptions)
@@ -15,6 +16,8 @@ export async function getUserSession() {
 
 interface ExtendedProfile extends Profile {
   picture?: string
+  firstName?: string
+  lastName?: string
 }
 
 interface SignInWithOauthParams {
@@ -34,7 +37,10 @@ export async function signInWithOauth({
   if (user) return true
 
   const newUser = new User({
+    
     name: profile.name,
+    firstName: profile.firstName,
+    lastName: profile.lastName,
     email: profile.email,
     image: profile.picture,
     provider: account.provider
@@ -66,11 +72,15 @@ export async function getUserByEmail({
 }
 
 export interface UpdateUserProfileParams {
-  name: string
+  firstName: string,
+  lastName: string,
+  email:string
 }
 
 export async function updateUserProfile({
-  name
+  firstName,
+  lastName,
+  email
 }: UpdateUserProfileParams) {
   const session = await getServerSession(nextauthOptions)
   // console.log(session)
@@ -83,7 +93,9 @@ export async function updateUserProfile({
     }
 
     const user = await User.findByIdAndUpdate(session?.user?._id, {
-      name
+      firstName,
+      lastName,
+      email
     }, { new: true }).select("-password")
 
     if (!user) {
@@ -97,6 +109,8 @@ export async function updateUserProfile({
 }
 
 export interface SignUpWithCredentialsParams {
+  firstName: string,
+  lastName: string,
   name: string,
   email: string,
   password: string
@@ -104,6 +118,8 @@ export interface SignUpWithCredentialsParams {
 
 export async function signUpWithCredentials ({
   name,
+  firstName,
+  lastName,
   email,
   password
 }: SignUpWithCredentialsParams) {
@@ -121,11 +137,13 @@ export async function signUpWithCredentials ({
 
     const newUser = new User({
       name,
+      firstName,
+      lastName,
       email,
       password: hashedPassword
     })
 
-    // console.log({newUser})
+    console.log({newUser})
     await newUser.save()
 
     return { success: true }
