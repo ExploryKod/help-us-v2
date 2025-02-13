@@ -1,5 +1,4 @@
 
-
 <div align="center">
   <img src='hands.jpg' width="30%">
 </div>
