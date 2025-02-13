@@ -59,7 +59,7 @@ const Page = () => {
       {/* Statistics Section with Title */}
       <div className="mb-6">
         <Title level={4} className="mb-4 md:mb-6">
-          Vue d'ensemble
+          Vue d&apos;ensemble
         </Title>
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={12} lg={6}>

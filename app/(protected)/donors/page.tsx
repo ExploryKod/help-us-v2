@@ -6,7 +6,8 @@ import DonorTable from '@/components/ui/DonorTable'
 import { useModal } from "@/app/store/modalStore";
 import DonorForm, { DonorFormRef } from "@/components/form/DonorForm";
 import { PlusOutlined } from "@ant-design/icons";
-const page = () => {
+
+const DonorPage = () => {
 
   const { openModal, closeModal } = useModal();
   const [refreshTable, setRefreshTable] = useState(false);
@@ -53,4 +54,4 @@ const page = () => {
   )
 }
 
-export default page
+export default DonorPage

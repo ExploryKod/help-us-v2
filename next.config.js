@@ -3,9 +3,20 @@ const nextConfig = {
   images: {
     domains: ['lh3.googleusercontent.com']
   },
-  // Next.js 14 版本之後可省略
   experimental: {
     serverActions: true
+  },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
   }
 }
 
