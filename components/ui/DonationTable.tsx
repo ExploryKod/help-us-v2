@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TableColumnsType, Input, message, Button } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { TableColumnsType, Input, message, Button, Modal } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import TableComponent from "./table";
 import { IDonation } from "@/types/IDonnation";
 import { getDonations } from "@/lib/actions/donations.actions";
@@ -127,6 +127,33 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    Modal.confirm({
+      title: 'Êtes-vous sûr de vouloir supprimer cette donation ?',
+      content: 'Cette action est irréversible.',
+      okText: 'Oui',
+      okType: 'danger',
+      cancelText: 'Non',
+      async onOk() {
+        try {
+          const response = await fetch(`/api/donations/${id}`, {
+            method: 'DELETE',
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to delete donation');
+          }
+
+          message.success('Donation supprimée avec succès');
+          setLocalRefresh(prev => !prev);
+        } catch (error) {
+          message.error('Erreur lors de la suppression de la donation');
+          console.error(error);
+        }
+      },
+    });
+  };
+
   const columns: TableColumnsType<IDonation & { key: string }> = [
     {
       title: "Montant",
@@ -168,6 +195,11 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
           <Button
             icon={<MessageCircle className="h-4 w-4" />}
             onClick={() => handleChatClick(record)}
+          />
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record._id.toString())}
           />
         </div>
       ),

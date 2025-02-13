@@ -65,3 +65,24 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     );
   }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  await connectDB();
+  try {
+    const id = params.id;
+    
+    const deletedDonation = await Donation.findByIdAndDelete(id);
+
+    if (!deletedDonation) {
+      return NextResponse.json({ error: "Donation non trouvée." }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Donation supprimée avec succès." });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Une erreur est survenue lors de la suppression de la donation." },
+      { status: 500 }
+    );
+  }
+}
