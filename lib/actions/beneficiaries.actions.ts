@@ -31,7 +31,7 @@ export async function getBeneficiaryById(id: string): Promise<IBeneficiary | nul
   await connectDB();
 
   try {
-    const beneficiary: IBeneficiary | null = await Donation.findById(id);
+    const beneficiary: IBeneficiary | null = await Beneficiary.findById(id);
     return beneficiary;
   } catch (error) {
     console.error("Erreur lors de la récupération du beneficiary :", error);

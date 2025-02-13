@@ -5,8 +5,9 @@ import PageCanvas from '../../PageCanvas'
 import DonorTable from '@/components/ui/DonorTable'
 import { useModal } from "@/app/store/modalStore";
 import DonorForm, { DonorFormRef } from "@/components/form/DonorForm";
+import { PlusOutlined } from "@ant-design/icons";
 
-const page = () => {
+const DonorPage = () => {
 
   const { openModal, closeModal } = useModal();
   const [refreshTable, setRefreshTable] = useState(false);
@@ -37,13 +38,20 @@ const page = () => {
   return (
     <PageCanvas title='Donateurs'>
       <PageCanvas.Actions>
-        <Button type='primary' onClick={addDonorModal} >Ajouter un donateur</Button>
+        <Button type='primary' onClick={addDonorModal} icon={<PlusOutlined />}
+          className="flex items-center gap-2 px-4 py-2 text-sm md:text-base"
+        >
+          <span className="hidden sm:inline">Ajouter un Donateur</span>
+          <span className="sm:hidden">Ajouter</span>
+        </Button>
       </PageCanvas.Actions>  
       <PageCanvas.Content>
-        <DonorTable key={refreshTable} />
+        <div className="w-full overflow-x-auto bg-transparent rounded-lg">
+          <DonorTable key={refreshTable} />
+        </div>
       </PageCanvas.Content>
     </PageCanvas>
   )
 }
 
-export default page
+export default DonorPage

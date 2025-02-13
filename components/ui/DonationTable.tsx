@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TableColumnsType, Input, message, Button } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { TableColumnsType, Input, message, Button, Modal } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import TableComponent from "./table";
 import { IDonation } from "@/types/IDonnation";
 import { getDonations } from "@/lib/actions/donations.actions";
 import { useModal } from "@/app/store/modalStore";
 import DonationForm from "../form/DonationForm";
 import React from "react";
+import { MessageCircle } from "lucide-react";
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const { Search } = Input;
 
@@ -17,7 +20,9 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [filteredData, setFilteredData] = useState<IDonation[]>([]);
   const [searchText, setSearchText] = useState("");
   const { openModal, closeModal } = useModal();
-  const [refreshTable, setRefreshTable] = useState(false);
+  const [localRefresh, setLocalRefresh] = useState(false);
+  const router = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +39,7 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
       }
     };
     fetchData();
-  }, [refresh]);
+  }, [refresh, localRefresh]);
 
   // Fonction de recherche améliorée pour chercher dans les données liées
   const handleSearch = (value: string) => {
@@ -84,25 +89,10 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
             try {
               await editFormRef.current.validateFields();
               await editFormRef.current.submit();
-              setFilteredData(prevData => {
-                const updatedData = [...prevData];
-                const index = updatedData.findIndex(item => item._id.toString() === id);
-                if (index !== -1) {
-                  // Refresh the data
-                  const fetchData = async () => {
-                    const donations = await getDonations();
-                    const formattedData = donations.map((d: IDonation) => ({
-                      ...d,
-                      key: d._id.toString(),
-                    }));
-                    setData(formattedData);
-                    setFilteredData(formattedData);
-                  };
-                  fetchData();
-                }
-                return updatedData;
-              });
+              // Trigger a re-fetch by toggling localRefresh
+              setLocalRefresh(prev => !prev);
               closeModal();
+              return true;
             } catch (error) {
               console.error("Validation failed:", error);
               return false;
@@ -114,6 +104,54 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
       message.error("Erreur lors du chargement des données de la donation");
       console.error(error);
     }
+  };
+
+  const handleChatClick = async (donation: IDonation) => {
+    try {
+      // Check if user is either donor, beneficiary, or admin
+      const userId = session?.user?._id;
+      const isDonor = donation.donorId._id === userId;
+      const isBeneficiary = donation.beneficiaryId._id === userId;
+      const isAdmin = session?.user?.role === 'admin';
+
+      if (!isDonor && !isBeneficiary && !isAdmin) {
+        message.error("Vous n'avez pas accès à cette conversation");
+        return;
+      }
+
+      // Navigate to chat page with donation ID
+      router.push(`/chat/${donation._id}`);
+    } catch (error) {
+      message.error("Erreur lors de l'accès au chat");
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    Modal.confirm({
+      title: 'Êtes-vous sûr de vouloir supprimer cette donation ?',
+      content: 'Cette action est irréversible.',
+      okText: 'Oui',
+      okType: 'danger',
+      cancelText: 'Non',
+      async onOk() {
+        try {
+          const response = await fetch(`/api/donations/${id}`, {
+            method: 'DELETE',
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to delete donation');
+          }
+
+          message.success('Donation supprimée avec succès');
+          setLocalRefresh(prev => !prev);
+        } catch (error) {
+          message.error('Erreur lors de la suppression de la donation');
+          console.error(error);
+        }
+      },
+    });
   };
 
   const columns: TableColumnsType<IDonation & { key: string }> = [
@@ -149,10 +187,21 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
-        <Button
-          icon={<EditOutlined />}
-          onClick={() => editDonationModal(record._id.toString())}
-        />
+        <div className="flex gap-2">
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => editDonationModal(record._id.toString())}
+          />
+          <Button
+            icon={<MessageCircle className="h-4 w-4" />}
+            onClick={() => handleChatClick(record)}
+          />
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record._id.toString())}
+          />
+        </div>
       ),
     },
   ];

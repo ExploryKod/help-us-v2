@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import PageCanvas from "../../PageCanvas";
 import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import BeneficiaryTable from "@/components/ui/BeneficiaryTable";
 import { useModal } from "@/app/store/modalStore";
 import BeneficiaryForm, { BeneficiaryFormRef } from "@/components/form/BeneficiaryForm";
@@ -37,12 +38,20 @@ const Page = () => {
   return (
     <PageCanvas title="Bénéficiaires">
       <PageCanvas.Actions>
-        <Button type="primary" onClick={addBeneficiaryModal}>
-          Ajouter un bénéficiaire
+        <Button 
+          type="primary"
+          onClick={addBeneficiaryModal}
+          icon={<PlusOutlined />}
+          className="flex items-center gap-2 px-4 py-2 text-sm md:text-base"
+        >
+          <span className="hidden sm:inline">Ajouter un bénéficiaire</span>
+          <span className="sm:hidden">Ajouter</span>
         </Button>
       </PageCanvas.Actions>
       <PageCanvas.Content>
-        <BeneficiaryTable refresh={refreshTable} />
+        <div className="w-full overflow-x-auto bg-transparent rounded-lg">
+          <BeneficiaryTable refresh={refreshTable} />
+        </div>
       </PageCanvas.Content>
     </PageCanvas>
   );

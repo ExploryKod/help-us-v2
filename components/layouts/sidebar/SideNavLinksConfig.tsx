@@ -1,5 +1,5 @@
 import { UserRolesEnum } from "@/types/IUser";
-import { DollarCircleFilled, PieChartOutlined, RedditCircleFilled } from "@ant-design/icons";
+import { DollarCircleFilled, DollarCircleOutlined, HeartOutlined, PieChartOutlined, TeamOutlined } from "@ant-design/icons";
 
 export type SidebarLink = {
   id: string;
@@ -23,9 +23,9 @@ export const getSidebarLinks = (role:UserRolesEnum): SidebarSection[] => {
           title: "Administration",
           links: [
             { id: "dashboard", label: "Dashboard", route: "/dashboard", icon: <PieChartOutlined/> },
-            { id: "beneficiaries", label: "Bénéficiaires", route: "/beneficiaries", icon: <DollarCircleFilled/> },
-            { id: "donations", label: "Dons", route: "/donations", icon: <DollarCircleFilled/> },
-            { id: "donors", label: "Donnateurs", route: "/donors", icon: <DollarCircleFilled/> },
+            { id: "beneficiaries", label: "Bénéficiaires", route: "/beneficiaries", icon: <TeamOutlined/> },
+            { id: "donations", label: "Dons", route: "/donations", icon: <DollarCircleOutlined/> },
+            { id: "donors", label: "Donnateurs", route: "/donors", icon: <HeartOutlined/> },
           ],
         },
       ];

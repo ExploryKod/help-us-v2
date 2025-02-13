@@ -19,7 +19,7 @@ const SideNavFooter = () => {
           <h4 className="font-semibold">
             {session?.user?.firstName} {session?.user?.lastName}            
           </h4>
-          <span className="text-xs text-gray-600">enzo.aime91@gmail.com</span>
+          <span className="text-xs text-gray-600">{session?.user?.email}</span>
         </div>
       
       </div>

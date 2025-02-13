@@ -35,6 +35,10 @@ export default withAuth(
       {
         path: 'api/beneficiaries',
         requiredRole: ['admin']
+      },
+      {
+        path: '/chat',
+        requiredRole: ['admin', 'donor', 'beneficiary']
       }
     ];
 
