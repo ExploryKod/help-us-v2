@@ -3,13 +3,14 @@ import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import UserBar from "../layouts/UserBar";
+import { useSession } from 'next-auth/react';
 
 interface HeaderProps {
   setSidebarOpen: (open: boolean) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
-  // const user = useAppSelector(selectUser);
+  const { data: session } = useSession();
 
   return (
     <header className="flex items-center justify-between p-4 bg-white shadow">
@@ -23,13 +24,15 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
         Bienvenue {user?.firstName} {user?.lastName} !
       </h1> */}
       <div className="flex items-center justify-end w-full max-w-screen-xl px-4 mx-auto gap-4">
-        <Link 
-          href="/chat" 
-          className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md text-gray-700"
-        >
-          <span>Chat</span>
-          <MessageCircle className="h-5 w-5" />
-        </Link>
+        {session && (
+          <Link 
+            href="/chat" 
+            className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md text-gray-700"
+          >
+            <span>Chat</span>
+            <MessageCircle className="h-5 w-5" />
+          </Link>
+        )}
         <UserBar />
       </div>
     </header>

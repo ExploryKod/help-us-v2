@@ -5,7 +5,7 @@ import { updateUserProfile, UpdateUserProfileParams } from "@/lib/actions/auth.a
 import { SaveOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
-
+import Image from "next/image";
 const UserProfileFormInfo = () => {
 
   const { data: session } = useSession();
@@ -39,11 +39,11 @@ const UserProfileFormInfo = () => {
               htmlType="submit"
               icon={<SaveOutlined />}
               style={{
-                width: "3rem",
-                height: "3rem",
                 marginRight: "1.5rem",
               }}
-            />
+            >
+              Enregistrer
+            </Button>
           </Tooltip>
         </div>
 

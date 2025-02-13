@@ -15,7 +15,7 @@ const GoogleSignInButton = ({
   }
 
   return (
-    <Button onClick={loginWithGoogle} className="w-full">
+    <Button onClick={loginWithGoogle} className="w-full text-white">
       {children}
     </Button>
   )
