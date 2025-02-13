@@ -44,7 +44,18 @@ export default function Home() {
             <p className="text-hu-tertiary mb-12">
             Ensemble, créons un monde plus solidaire
             </p>
-          
+
+            {(session && session.user.role === 'user') ? (<>
+              <p className="text-hu-tertiary mb-12">
+                Bonjour {session.user.name}, bienvenue chez <em>Help Us</em>.
+              </p>
+              <p className="text-hu-tertiary mb-12">Vous êtes tout juste inscris chez nous : nous sommes susceptible de vous contacter pour échanger
+                avec vous afin d&apos;en savoir
+                plus sur vos raisons d&apos;engagement
+                avec nous que vous soyez future bénéficiaire, donateur ou bénévole.</p>
+              <p className="text-hu-tertiary mb-12">Vous aurez alors accès à vos espaces d&apos;administration ici.</p>
+            </>) : null }
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
                 <div className="flex justify-center mb-4">
@@ -82,9 +93,9 @@ export default function Home() {
             
                 {session ? (
                   <>
-                    <div className="flex flex-col">
-                      <p className="text-hu-tertiary my-3">Vous êtes admin ?</p>
-                      <Link 
+                    {session.user.role !== 'user' ?
+                        (<div className="flex flex-col">
+                      <Link
                         href="/dashboard"
                         className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white
                            rounded-lg hover:bg-hu-black transition-colors
@@ -92,7 +103,16 @@ export default function Home() {
                       >
                   Accéder au Tableau de Bord
                       </Link>
-                    </div>
+                    </div>) : (<div className="flex flex-col">
+                          <Link
+                              href="/api/auth/signout"
+                              className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white
+                           rounded-lg hover:bg-hu-black transition-colors
+                           text-lg font-medium shadow-sm hover:shadow-md"
+                          >
+                            Se déconnecter
+                          </Link>
+                        </div>)}
                   </>
                 ) : (
                   <div>
