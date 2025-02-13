@@ -23,13 +23,13 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
       });
 
       if (result?.error) {
-        message.error("Invalid email or password.");
+        message.error("Email ou mot de passe invalide.");
       } else {
-        message.success("Sign in successful!");
+        message.success("Vous êtes logué!");
         window.location.href = callbackUrl; // Redirection manuelle
       }
     } catch (error) {
-      message.error("An error occurred. Please try again.");
+      message.error("Une erreur a été déclenchée, réessayez.");
     }
     setLoading(false);
   };
@@ -42,7 +42,7 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
         <Form.Item
           label="Email"
           name="email"
-          rules={[{ required: true, type: "email", message: "Please enter a valid email!" }]}
+          rules={[{ required: true, type: "email", message: "Email invalide ou manquant ?" }]}
         >
           <Input placeholder="mail@example.com" />
         </Form.Item>
@@ -50,7 +50,7 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
         <Form.Item
           label="Mot de passe"
           name="password"
-          rules={[{ required: true, message: "Please enter your password!" }]}
+          rules={[{ required: true, message: "Mot de passe nécessaire!" }]}
         >
           <Input.Password placeholder="Your password" />
         </Form.Item>
@@ -60,11 +60,11 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
         </Button>
       </Form>
 
-      <div className="text-center my-4 text-gray-600">or</div>
+      <div className="text-center my-4 text-gray-600">ou</div>
 
       <p className="text-center text-sm text-gray-600 mt-4">
         Pas encore de compte?&nbsp;
-        <Link href="/signup" className="text-blue-600 hover:underline">
+        <Link href="/signup" className="text-hu-tertiary hover:underline">
           Sign Up
         </Link>
       </p>

@@ -20,20 +20,20 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
     try {
       const res = await signUpWithCredentials(values);
       if (res?.success) {
-        message.success("Sign up successfully.");
+        message.success("Vous êtes inscris. Nous vous recontactons pour adherer.");
         router.push("/signin");
       } else {
-        message.error("Sign up failed. Please try again.");
+        message.error("Échec de l'inscription.");
       }
     } catch (error) {
-      message.error("An error occurred. Please try again later.");
+      message.error("Il y a eu une erreur, réessayer plus tard.");
     }
     setLoading(false);
   };
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">S&apos;inscrire</h2>
       <Form
         layout="vertical"
         onFinish={onFinish}
@@ -49,15 +49,15 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
         <Form.Item
           label="Pseudo"
           name="name"
-          rules={[{ required: true, message: "Please enter your username!" }]}
+          rules={[{ required: true, message: "Entrez vos pseudo!" }]}
         >
-          <Input placeholder="Your username" />
+          <Input placeholder="Votre pseudo" />
         </Form.Item>
 
         <Form.Item
           label="Email"
           name="email"
-          rules={[{ required: true, type: "email", message: "Please enter a valid email!" }]}
+          rules={[{ required: true, type: "email", message: "Entrez un email valide!" }]}
         >
           <Input placeholder="mail@example.com" />
         </Form.Item>
@@ -81,7 +81,7 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
         <Form.Item
           label="Mot de passe"
           name="password"
-          rules={[{ required: true, message: "Please enter your password!" }]}
+          rules={[{ required: true, message: "Entrez votre mot de passe!" }]}
         >
           <Input.Password placeholder="Your password" />
         </Form.Item>
@@ -91,18 +91,18 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
           name="confirmPassword"
           dependencies={["password"]}
           rules={[
-            { required: true, message: "Please confirm your password!" },
+            { required: true, message: "Confirmez votre mot de passe!" },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error("Passwords do not match!"));
+                return Promise.reject(new Error("Les mot de passe sont différents !"));
               },
             }),
           ]}
         >
-          <Input.Password placeholder="Confirm your password" />
+          <Input.Password placeholder="Confirmer le mot de passe" />
         </Form.Item>
 
         <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
@@ -112,7 +112,7 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
 
       <div className="text-center mt-4">
         <span className="text-gray-600">Dejà adhérant ? </span>
-        <Link href="/signin" className="text-blue-600 hover:underline">
+        <Link href="/signin" className="text-hu-tertiary font-bold hover:underline">
          Se connecter
         </Link>
       </div>
