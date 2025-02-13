@@ -55,10 +55,10 @@ const Page = () => {
     : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 px-4 md:px-6 lg:px-8">
       {/* Statistics Section with Title */}
-      <div className="mb-8">
-        <Title level={4} className="mb-6">
+      <div className="mb-6">
+        <Title level={4} className="mb-4 md:mb-6">
           Vue d'ensemble
         </Title>
         <Row gutter={[16, 16]}>
@@ -68,7 +68,7 @@ const Page = () => {
               value={beneficiaries.length}
               description="Bénéficiaires actifs"
               link="/beneficiaries"
-              icon={<Users />}
+              icon={<Users className="w-6 h-6" />}
             />
           </Col>
           <Col xs={24} sm={12} lg={6}>
@@ -77,7 +77,7 @@ const Page = () => {
               value={donors.length}
               description="Donateurs enregistrés"
               link="/donors"
-              icon={<Heart />}
+              icon={<Heart className="w-6 h-6" />}
             />
           </Col>
           <Col xs={24} sm={12} lg={6}>
@@ -86,7 +86,7 @@ const Page = () => {
               value={donations.length}
               description="Nombre total de dons"
               link="/donations"
-              icon={<Wallet />}
+              icon={<Wallet className="w-6 h-6" />}
             />
           </Col>
           <Col xs={24} sm={12} lg={6}>
@@ -95,7 +95,7 @@ const Page = () => {
               value={`${totalDonationAmount}€`}
               description={`Moyenne: ${averageDonationAmount.toFixed(2)}€`}
               link="/donations"
-              icon={<TrendingUp />}
+              icon={<TrendingUp className="w-6 h-6" />}
             />
           </Col>
         </Row>
@@ -103,12 +103,12 @@ const Page = () => {
 
       <Card 
         title={
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <Title level={4} className="!mb-0">Donations Récentes</Title>
             <Link href="/donations">
               <Button 
                 type="link" 
-                className="text-hu-primary hover:text-hu-primary/80"
+                className="text-hu-primary hover:text-hu-primary/80 !p-0 sm:!p-2"
               >
                 Voir tout
                 <ArrowRightToLine className="ml-1 h-4 w-4" />
@@ -128,43 +128,44 @@ const Page = () => {
               <Col 
                 key={donation._id.toString()} 
                 xs={24} 
+                sm={24}
                 md={8}
               >
                 <Card
-                  className="cursor-pointer hover:shadow-md transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-hu-primary"
+                  className="cursor-pointer hover:shadow-md transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-hu-primary h-full"
                   onClick={() => router.push(`/donations/${donation._id}`)}
                   bodyStyle={{ padding: '16px' }}
                 >
-                  <div className="flex items-start justify-between">
-                    <div>
+                  <div className="flex flex-col h-full">
+                    <div className="flex items-start justify-between mb-4">
                       <Title level={4} className="!mb-0 !mt-2" style={{ color: '#3D52A0' }}>
                         {donation.amount}€
                       </Title>
+                      <Tooltip 
+                        title={new Date(donation.date).toLocaleString('fr-FR')}
+                      >
+                        <Text type="secondary" className="text-xs bg-blue-50 px-2 py-1 rounded-full">
+                          {formatDistanceToNow(new Date(donation.date), { 
+                            addSuffix: true,
+                            locale: fr 
+                          })}
+                        </Text>
+                      </Tooltip>
                     </div>
-                    <Tooltip 
-                      title={new Date(donation.date).toLocaleString('fr-FR')}
-                    >
-                      <Text type="secondary" className="text-xs bg-blue-50 px-2 py-1 rounded-full">
-                        {formatDistanceToNow(new Date(donation.date), { 
-                          addSuffix: true,
-                          locale: fr 
-                        })}
-                      </Text>
-                    </Tooltip>
-                  </div>
-                  
-                  <div className="mt-4 space-y-2 bg-gray-50 p-3 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <Text type="secondary" className="text-xs">Donateur</Text>
-                      <Text style={{ color: '#3D52A0' }} className="text-sm font-medium">
-                        {donation.donorId?.name || 'N/A'}
-                      </Text>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <Text type="secondary" className="text-xs">Bénéficiaire</Text>
-                      <Text style={{ color: '#3D52A0' }} className="text-sm font-medium">
-                        {donation.beneficiaryId?.name || 'N/A'}
-                      </Text>
+                    
+                    <div className="mt-auto space-y-2 bg-gray-50 p-3 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <Text type="secondary" className="text-xs">Donateur</Text>
+                        <Text style={{ color: '#3D52A0' }} className="text-sm font-medium">
+                          {donation.donorId?.name || 'N/A'}
+                        </Text>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <Text type="secondary" className="text-xs">Bénéficiaire</Text>
+                        <Text style={{ color: '#3D52A0' }} className="text-sm font-medium">
+                          {donation.beneficiaryId?.name || 'N/A'}
+                        </Text>
+                      </div>
                     </div>
                   </div>
                 </Card>

@@ -6,7 +6,7 @@ import BeneficiaryTable from "@/components/ui/BeneficiaryTable";
 import { useModal } from "@/app/store/modalStore";
 import DonationForm, { DonationFormRef } from "@/components/form/DonationForm";
 import DonationTable from "@/components/ui/DonationTable";
-
+import { PlusOutlined } from "@ant-design/icons";
 const Page = () => {
   const { openModal, closeModal } = useModal();
   const [refreshTable, setRefreshTable] = useState(false);
@@ -38,12 +38,17 @@ const Page = () => {
   return (
     <PageCanvas title="Donations">
       <PageCanvas.Actions>
-        <Button type="primary" onClick={addDonationModal}>
-          Ajouter une donation
+        <Button type="primary" onClick={addDonationModal} icon={<PlusOutlined />}
+          className="flex items-center gap-2 px-4 py-2 text-sm md:text-base">
+          <span className="hidden sm:inline">Ajouter un don</span>
+          <span className="sm:hidden">Ajouter</span>
         </Button>
       </PageCanvas.Actions>
       <PageCanvas.Content>
+      <div className="w-full overflow-x-auto bg-transparent rounded-lg">
+
         <DonationTable refresh={refreshTable} />
+        </div>
       </PageCanvas.Content>
     </PageCanvas>
   );
