@@ -20,7 +20,7 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
   const [filteredData, setFilteredData] = useState<IDonation[]>([]);
   const [searchText, setSearchText] = useState("");
   const { openModal, closeModal } = useModal();
-  const [refreshTable, setRefreshTable] = useState(false);
+  const [localRefresh, setLocalRefresh] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -39,7 +39,7 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
       }
     };
     fetchData();
-  }, [refresh]);
+  }, [refresh, localRefresh]);
 
   // Fonction de recherche améliorée pour chercher dans les données liées
   const handleSearch = (value: string) => {
@@ -89,25 +89,10 @@ const DonationTable: React.FC<{ refresh: boolean }> = ({ refresh }) => {
             try {
               await editFormRef.current.validateFields();
               await editFormRef.current.submit();
-              setFilteredData(prevData => {
-                const updatedData = [...prevData];
-                const index = updatedData.findIndex(item => item._id.toString() === id);
-                if (index !== -1) {
-                  // Refresh the data
-                  const fetchData = async () => {
-                    const donations = await getDonations();
-                    const formattedData = donations.map((d: IDonation) => ({
-                      ...d,
-                      key: d._id.toString(),
-                    }));
-                    setData(formattedData);
-                    setFilteredData(formattedData);
-                  };
-                  fetchData();
-                }
-                return updatedData;
-              });
+              // Trigger a re-fetch by toggling localRefresh
+              setLocalRefresh(prev => !prev);
               closeModal();
+              return true;
             } catch (error) {
               console.error("Validation failed:", error);
               return false;
