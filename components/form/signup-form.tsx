@@ -47,7 +47,7 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
         }}
       >
         <Form.Item
-          label="Username"
+          label="Pseudo"
           name="name"
           rules={[{ required: true, message: "Please enter your username!" }]}
         >
@@ -79,7 +79,7 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Mot de passe"
           name="password"
           rules={[{ required: true, message: "Please enter your password!" }]}
         >
@@ -87,7 +87,7 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
         </Form.Item>
 
         <Form.Item
-          label="Confirm Password"
+          label="Confirmer le mot de passe"
           name="confirmPassword"
           dependencies={["password"]}
           rules={[
@@ -106,14 +106,14 @@ const SignUpForm = ({ signUpWithCredentials }: SignUpFormProps) => {
         </Form.Item>
 
         <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
-          Sign Up
+          S&apos;inscrire
         </Button>
       </Form>
 
       <div className="text-center mt-4">
-        <span className="text-gray-600">Already have an account? </span>
+        <span className="text-gray-600">Dejà adhérant ? </span>
         <Link href="/signin" className="text-blue-600 hover:underline">
-          Sign In
+         Se connecter
         </Link>
       </div>
     </div>

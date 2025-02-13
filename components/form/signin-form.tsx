@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import GoogleSignInButton from "@/components/button/google-signin-button";
 
 interface SignInFormProps {
   callbackUrl: string;
@@ -49,7 +48,7 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Mot de passe"
           name="password"
           rules={[{ required: true, message: "Please enter your password!" }]}
         >
@@ -57,18 +56,14 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
         </Form.Item>
 
         <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
-          Sign In
+          Se connecter
         </Button>
       </Form>
 
       <div className="text-center my-4 text-gray-600">or</div>
 
-      <GoogleSignInButton callbackUrl={callbackUrl}>
-        Sign in with Google
-      </GoogleSignInButton>
-
       <p className="text-center text-sm text-gray-600 mt-4">
-        Don&apos;t have an account?&nbsp;
+        Pas encore de compte?&nbsp;
         <Link href="/signup" className="text-blue-600 hover:underline">
           Sign Up
         </Link>
