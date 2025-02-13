@@ -44,8 +44,8 @@ const page = () => {
           <div className="mt-2 flex flex-col gap-2 sm:flex-row items-center justify-center">
               <Link
                   href="/"
-                  className="z-10 mt-2 inline-block px-6 py-3 bg-hu-tertiary text-white
-                           rounded-lg hover:bg-hu-black transition-colors
+                  className="z-10 mt-2 inline-block px-6 py-3 bg-hu-primary text-hu-tertiary
+                           rounded-lg hover:bg-hu-black hover:text-hu-primary transition-colors
                            text-lg font-medium shadow-sm hover:shadow-md"
               >
                  Retour à l&apos;accueil
