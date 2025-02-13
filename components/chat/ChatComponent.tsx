@@ -21,12 +21,20 @@ export default function ChatComponent({ channelId, members }: ChatComponentProps
   const { client } = useStreamChat();
   const { data: session } = useSession();
   const [channel, setChannel] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!client || !session?.user) return;
+    if (!client || !session?.user) {
+      setLoading(false);
+      return;
+    }
 
     const initChannel = async () => {
       try {
+        setLoading(true);
+        setError(null);
+        
         // If we have specific members (donation chat), initialize them first
         if (members?.length) {
           // Fetch user data first
@@ -57,13 +65,18 @@ export default function ChatComponent({ channelId, members }: ChatComponentProps
         setChannel(channelInstance as any);
       } catch (error) {
         console.error('Error initializing channel:', error);
+        setError('Failed to initialize chat. Please try again.');
+      } finally {
+        setLoading(false);
       }
     };
 
     initChannel();
   }, [client, session, channelId, members]);
 
-  if (!channel) return null;
+  if (loading) return <div>Loading chat...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!channel) return <div>Unable to load chat</div>;
 
   return (
     <div className="h-[600px]">
