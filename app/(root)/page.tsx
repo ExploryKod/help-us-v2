@@ -115,7 +115,7 @@ export default function Home() {
                         </div>)}
                   </>
                 ) : (
-                  <div>
+                  <div className={"flex flex-col"}>
                     <Link className={`z-10 inline-block px-6 py-3 bg-hu-secondary text-white 
                             rounded-lg hover:bg-hu-black transition-colors 
                             text-lg font-medium shadow-sm hover:shadow-md`} href="/signin">
@@ -123,7 +123,8 @@ export default function Home() {
                     </Link>
                   </div>
                 )}
-                <div className="flex flex-col justify-end">
+                {!session ?
+                    (<div className="flex flex-col justify-end">
                   <Link 
                     href="/join"
                     className="z-10 inline-block px-6 py-3 bg-orange-500 text-white
@@ -132,7 +133,7 @@ export default function Home() {
                   >
                   Agir avec nous
                   </Link>
-                </div>
+                </div>):null}
               </div>
             </div>
           </div>
