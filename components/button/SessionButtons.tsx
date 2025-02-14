@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import {useSession} from "next-auth/react";
-
+import SignOutButton from "@/components/button/signout-button"
 
 export const SessionButtons = () => {
     const {data: session} = useSession();
@@ -29,13 +29,7 @@ export const SessionButtons = () => {
                                 >
                                     Adhérer en ligne
                                 </Link>
-                                <Link
-                                    href="/api/auth/signout"
-                                    prefetch={true}
-                                    className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
-                                >
-                                    Se déconnecter
-                                </Link>
+                               <SignOutButton />
                             </div>
                         )}
                     </>
