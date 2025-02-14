@@ -4,7 +4,7 @@ import {SessionButtons} from "@/components/button/SessionButtons";
 
 export const HomeButtons = () => {
     return (<>
-        <Suspense fallback={<p> 🌀 chargement...</p>}>
+        <Suspense fallback={<p>Loading...</p>}>
             <SessionButtons />
         </Suspense>
     </>)
