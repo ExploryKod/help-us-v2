@@ -50,7 +50,7 @@ const BeneficiaryForm = forwardRef<BeneficiaryFormRef, BeneficiaryFormProps>(
           setLoading(false);
         }
 
-        message.success(`Donateur ${beneficiary?._id ? "mis à jour" : "ajouté"} avec succès`);
+        message.success(`Bénéficiaire ${beneficiary?._id ? "mis à jour" : "ajouté"} avec succès`);
         onSuccess?.(); // ✅ Rafraîchit la liste après soumission
       } catch (error) {
         message.error(`Échec de la ${beneficiary?._id ? "mise à jour" : "création"}`);
