@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { nextauthOptions } from "@/lib/nextauth-options";
+import { HomeButtons } from "@/components/button/home-buttons";
 
 export default async function Home() {
 
@@ -58,12 +59,12 @@ export default async function Home() {
                 Ensemble, créons un monde plus solidaire
               </p>
               {session ? (
-                  <p className={"text-hu-tertiary mb-12"}>
+                  <p className={"text-hu-tertiary mb-2"}>
                     Vous êtes {roles[session.user.role]} et nous sommes heureux de vous retrouver.
                    </p>
               ): null}
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {donors.length > 0 && (
                     <div className="bg-white rounded-lg shadow-lg p-6 transform transition hover:-translate-y-2">
                       <div className="flex justify-center mb-4">
@@ -98,64 +99,9 @@ export default async function Home() {
                     </div>
                 )}
               </div>
-
-              <div className="mt-12">
-                <div className="flex gap-2 justify-center">
-                  {session ? (
-                      <>
-                        {session.user.role !== "user" ? (
-                            <div className="flex flex-col">
-                              <Link
-                                  href="/dashboard"
-                                  prefetch={true}
-                                  className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
-                              >
-                                Accéder au Tableau de Bord
-                              </Link>
-                            </div>
-                        ) : (
-                            <div className="flex flex-row gap-3">
-                            <Link
-                                href="/update"
-                                prefetch={true}
-                                className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
-                            >
-                              Adhérer en ligne
-                            </Link>
-                              <Link
-                                  href="/api/auth/signout"
-                                  prefetch={true}
-                                  className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
-                              >
-                                Se déconnecter
-                              </Link>
-                            </div>
-                        )}
-                      </>
-                  ) : (
-                      <>
-                        <div className="flex flex-col">
-                          <Link
-                              className="z-10 inline-block px-6 py-3 bg-hu-secondary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
-                              href="/signin"
-                          >
-                            Se Connecter
-                          </Link>
-                        </div>
-                        <div className="flex flex-col justify-end">
-                          <Link
-                              href="/join"
-                              className="z-10 inline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-lg font-medium shadow-sm hover:shadow-md"
-                          >
-                            Agir avec nous
-                          </Link>
-                        </div>
-                      </>
-                  )}
-                </div>
-              </div>
+              <HomeButtons />
             </div>
-          </div>
+              </div>
         </div>
       </>
   );
