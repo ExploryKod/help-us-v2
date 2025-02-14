@@ -35,7 +35,7 @@ export const SessionButtons = () => {
                                     <Link
                                         href="/dashboard"
                                         prefetch={true}
-                                        className="z-10 inline-block px-6 py-3 bg-hu-red-300 text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                                        className="z-10 inline-block px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
                                     >
                                         Tableau de bord
                                     </Link>
