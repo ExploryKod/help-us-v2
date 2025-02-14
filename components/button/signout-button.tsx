@@ -12,7 +12,7 @@ const SignOutButton = () => {
   }
 
   return (
-    <Button onClick={signout} variant="destructive">
+    <Button onClick={signout} variant="destructive" className={""}>
       Se déconnecter
     </Button>
   )

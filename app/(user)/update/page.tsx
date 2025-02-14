@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react"
 import {useRouter} from "next/navigation";
 import {AuthorizeButton} from "@/components/button/authorize-button";
 import {Button} from "antd";
+import Link from "next/link";
 
 export default function Page() {
     const { data: session, status, update } = useSession()
@@ -22,11 +23,11 @@ export default function Page() {
                 <div className="flex flex-col sm:items-center sm:justify-center gap-4">
                     <h1 className={"text-hu-black text-2xl my-2"}>Adherer</h1>
                     <h2 className={"text-hu-tertiary text-lg my-2"}>Votre role actuel: {roles[session.user.role]}</h2>
-                    <p className={"text-hu-black text-lg my-3"}>Demander ici à devenir adhérant. Nous recevons le changement
-                        et vous devez alors vous connecter à nouveau pour valider votre nouveau statut.</p>
+                    <p className={"text-hu-black text-lg my-3"}>Demander ici à devenir adhérant en remplissant notre formulaire.</p>
                 </div>
                 <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4">
-                    <AuthorizeButton />
+                    <Link href={"/form_adhere.pdf"}  className="bg-hu-tertiary text-white hover:opacity-75 p-2">Télécharger le formulaire</Link>
+
                     <Button
                         type="primary"
                         className="bg-hu-black text-white hover:opacity-75 p-2"

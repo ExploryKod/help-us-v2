@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link";
 import {useSession} from "next-auth/react";
-import SignOutButton from "@/components/button/signout-button"
 
 export const SessionButtons = () => {
     const {data: session} = useSession();
@@ -23,13 +22,31 @@ export const SessionButtons = () => {
                         ) : (
                             <div className="flex flex-row gap-3">
                                 <Link
-                                    href="/update"
+                                    href="/form_adhere.pdf"
                                     prefetch={true}
+                                    target={"_blank"}
                                     className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
                                 >
-                                    Adhérer en ligne
+                                    Formulaire d&apos;adhesion
                                 </Link>
-                               <SignOutButton />
+                                <div className="flex flex-col">
+                                    <Link
+                                        href="/dashboard"
+                                        prefetch={true}
+                                        className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                                    >
+                                        Tableau de bord
+                                    </Link>
+                                </div>
+                                <div className="flex flex-col">
+                                    <Link
+                                        href="/profile"
+                                        prefetch={true}
+                                        className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                                    >
+                                        Mon profile
+                                    </Link>
+                                </div>
                             </div>
                         )}
                     </>

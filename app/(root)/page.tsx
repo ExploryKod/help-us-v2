@@ -7,6 +7,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { nextauthOptions } from "@/lib/nextauth-options";
 import { HomeButtons } from "@/components/button/home-buttons";
+import SignOutButton from "@/components/button/signout-button";
 
 export default async function Home() {
 
@@ -46,6 +47,11 @@ export default async function Home() {
 
         <div className="min-h-screen-1/2 rounded">
           <div className="container mx-auto px-4 py-12">
+            {session ? (
+                <div className="absolute top-10 right-10 w-full flex items-end justify-end">
+                  <SignOutButton />
+                </div>
+            ) : null}
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex justify-center mb-8">
                 <HeartHandshake className="w-16 h-16 text-hu-tertiary animate-pulse" />
