@@ -3,7 +3,7 @@
   <img src='hands.jpg' width="30%">
 </div>
 
-## PROJET DE COURS (YNOV) - NEXTJS 15, NextAuth v4 et MongoDB
+## PROJET DE COURS (YNOV) - NEXTJS, NextAuth v4 et MongoDB
 
 >Un tableau de bord pour aider les adhérents d'une association à gérer des dons et des bénéficiaires.
 >Il est en ligne donc il donne aussi de l'information si utilisateur navigue sans être adhérent et donc peut demander à rejoindre l'association.
