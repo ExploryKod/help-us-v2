@@ -37,7 +37,7 @@ export const SessionButtons = () => {
                                         prefetch={true}
                                         className="z-10 inline-block px-6 py-3 bg-hu-red-300 text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
                                     >
-                                        Tableau de bord <LockKeyhole />
+                                        Tableau de bord
                                     </Link>
                                 </div>
                                 <div className="flex flex-col">
