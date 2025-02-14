@@ -102,6 +102,15 @@ const UserProfileFormInfo = () => {
           </div>
         </div>
       </Form>
+      <div>
+        <Button
+            type="primary"
+            className="bg-hu-black text-white hover:opacity-75 p-2"
+            onClick={() => router.back()}
+        >
+          Retour
+        </Button>
+      </div>
     </>
   );
 };
