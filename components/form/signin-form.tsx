@@ -36,7 +36,7 @@ const SignInForm = ({ callbackUrl }: SignInFormProps) => {
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-4">Sign In</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">Se connecter</h2>
       
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
