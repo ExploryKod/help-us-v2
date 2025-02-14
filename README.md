@@ -31,14 +31,17 @@ STREAM_SECRET=<nous demander>
 
 ## Démarrage
 
-Localement, enclenchez :
+Localement, enclenchez sur le port 3000 (défault):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+pnpm run dev
 ```
+
+Dans un autre terminal, vous pouvez utiliser le seeder (ne marche pas pour les utilisateurs): 
+
+Unique sur le port 3000 : 
+``` pnpm run seed ```
+Pour remettre la base de donnée à zero (attention y compris les données non-seedées !):
+```pnpm run clear``` 
 
 Allez sur [http://localhost:3000](http://localhost:3000)
