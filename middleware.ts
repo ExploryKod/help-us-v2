@@ -10,7 +10,7 @@ export default withAuth(
     const protectedRoutes = [
       {
         path: '/dashboard',
-        requiredRole: ['admin']
+        requiredRole: ['admin', 'user']
       },
       {
         path: '/donations',
@@ -58,7 +58,6 @@ export default withAuth(
   },
   {
     callbacks: {
-      // If `authorized` returns `true`, the middleware function will execute.
       authorized: ({ token }) => !!token
     },
   }

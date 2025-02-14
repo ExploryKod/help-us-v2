@@ -2,6 +2,7 @@
 import Link from "next/link";
 import {useSession} from "next-auth/react";
 
+
 export const SessionButtons = () => {
     const {data: session} = useSession();
     return (
@@ -30,12 +31,13 @@ export const SessionButtons = () => {
                                     Formulaire d&apos;adhesion
                                 </Link>
                                 <div className="flex flex-col">
+                                    <p className="text-base font-medium text-gray-900"></p>
                                     <Link
                                         href="/dashboard"
                                         prefetch={true}
-                                        className="z-10 inline-block px-6 py-3 bg-hu-tertiary text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
+                                        className="z-10 inline-block px-6 py-3 bg-hu-red-300 text-white rounded-lg hover:bg-hu-black transition-colors text-lg font-medium shadow-sm hover:shadow-md"
                                     >
-                                        Tableau de bord
+                                        Tableau de bord <LockKeyhole />
                                     </Link>
                                 </div>
                                 <div className="flex flex-col">

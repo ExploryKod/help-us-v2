@@ -6,7 +6,6 @@ import SideNav from "@/components/layouts/sidebar/Sidenav";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark min-h-screen flex flex-col">
