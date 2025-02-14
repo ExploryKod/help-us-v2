@@ -6,10 +6,12 @@ import { SaveOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Tooltip, message } from "antd";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 const UserProfileFormInfo = () => {
   const { data: session, update: updateSession } = useSession();
   const [form] = Form.useForm();
+  const router = useRouter()
 
   useEffect(() => {
     if (session?.user) {
